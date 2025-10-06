@@ -9,7 +9,7 @@ A small project for the NSWI13 (Architectures of Software Systems) where we try 
 - teachers
 - managers
 
-## Features
+## Feature areas
 - Awarding credits (by teachers)
 - Exam terms management and room reservation (by teachers)
 - Registering for the exam terms (by students)
