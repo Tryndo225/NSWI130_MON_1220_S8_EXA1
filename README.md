@@ -5,9 +5,9 @@ A small project for the NSWI13 (Architectures of Software Systems) where we try 
 - Exams (EXA)
 
 ## Stakeholders
-- students
-- teachers
-- managers
+- Students
+- Teachers
+- Managers
 
 ## Feature areas
 - Awarding credits (by teachers)
