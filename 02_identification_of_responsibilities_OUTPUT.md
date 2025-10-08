@@ -99,18 +99,37 @@
 Professor leading a course, which has at least one exam term scheduled, registered to the system. Referred to as "User".
 
 **_Main Flow:_**
-1. "User" opens a concrete exam term.
-2. The system starts exam editor window and shows it to the "user".
-3. "User" selects the room field.
-4. The system checks the database for the availability of the school owned classrooms and displays available ones to the "user".
-5. "User" selects his preferred classroom.
-6. The system sets the classroom as unavailable for the exam's term time period and updates the database.
-7. The system informs "user" of the successful classroom reservation.
+1. The system offers "user" all of his written out exam terms.
+    a. The system connets to the online database.
+    b. The system gets a list of all exam terms.
+    c. The system filters the terms based on professors.
+    d. The system shows user only the terms he has written out.
+3. "User" opens a concrete exam term.
+4. The system starts exam editor window and shows it to the "user".
+5. "User" selects the room field.
+6. The system checks the database for the availability of the school owned classrooms and displays available ones to the "user".
+    a. The system connets to the online database.
+    b. The system gets a list of all classrooms.
+    c. The system filters the classrooms based on availability in the given time period.
+    d. The system displays the filetered-out list to the user.
+7. "User" selects his preferred classroom.
+8. The system sets the classroom as unavailable for the exam's term time period and updates the database.
+    a. The system connets to the online database.
+    b. The system finds the selected classroom.
+    c. The system marks the classroom as unavailable during the term's time period.
+    d. The system finds the exam term currently being modified.
+    e. The system updates the exam term's location to the selected classroom.
+9. The system informs "user" of the successful classroom reservation.
 
 **_Alternate Flow:_**
 5b. "User" selects 'Other'.
 6b. The system prompts the "user" to select a location.
+    a. The system open a geographical map with a search bar.
+    b. The system promps the user to select or find a prefered place.
 7b. The system updates the exam's term location in the database.
+    a. The system connets to the online database.
+    b. The system finds the exam term currently being modified.
+    c. The system updates the exam term's location to the selected location.
 8b. The system informs the "user" of the success of the location update.
 
 **_Postconditions:_** 
@@ -118,8 +137,42 @@ Professor has his selected exam's term location updated.
 
 #### Responsibilities
 
-##### Responsibility XY
-...
+##### Database Reading
+- Connecting to the database.
+- Reading the contents of the database.
+- Fetching the contents to the client.
+
+##### Database Modification
+- Connecting to the database.
+- Searching for item that has the modification.
+- Updating set database item.
+- Saving the database.
+
+##### Database Filtering
+- Connecting to the database.
+- Reading the contents of the database.
+- Applying filler to the contents.
+- Fetching the filtered contents to the client.
+
+##### Database Contents Display
+- Fetching database contents.
+- Creating a User-Friendly display window.
+- Populating the display window with databse entries.
+
+##### Mouse UI Input Handling
+- Tracking the user mouse location.
+- Notifing relevant UI elements of the mouse presses.
+
+##### Diplaying Interactive Map Of Location
+- Fetching the user current location.
+- Finding the map of set location.
+- Displaying the map for a user.
+- Tracking user interaction with the map.
+
+##### Action Process Status Notification
+- Tracking the action process
+- Generating a UI pop-up window
+- Updating the window with relavant process status information
 
 ### Feature: Assigning Per-student Course Credit
 
