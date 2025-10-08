@@ -17,3 +17,7 @@ A small project for the NSWI13 (Architectures of Software Systems) where we try 
 - Awarding grades (by teachers)
 - Viewing results (by students and teachers)
 - Statistical reports going back to history (by managers and teachers)
+
+## Latest updates
+The summary for Lab02 can be seen !(here)[./02_identification_of_responsibilities_OUTPUT.md].
+But, you can also check them in !(Issues)[https://github.com/Tryndo225/NSWI130_MON_1220_S8_EXA1/issues].
