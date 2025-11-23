@@ -2,16 +2,16 @@ workspace "Exam Handling System" "C4 model for EXA project" {
 
     model {
 
-        // === People ===
+        // ---------------------------------------- People ----------------------------------------
         student = person "Student" "Registers for exams and views results."
         teacher = person "Teacher" "Creates exam terms, reserves rooms, assigns credits and grades."
         manager = person "Manager" "Views exam statistics and historical reports."
 
-        // === External systems ===
+        // ---------------------------------------- External systems ----------------------------------------
         sis  = softwareSystem "School Information System" "Master data about students, courses, enrolment and official results."
         mail = softwareSystem "School Email" "Delivers e-mail notifications."
 
-        // === Our system ===
+        // ---------------------------------------- Our system ----------------------------------------
         healthExa = softwareSystem "Exam Handling System (EXA)" "Manages exam terms, registrations, rooms, results and statistics." {
 
             // ----- Container: Web UI -----
@@ -64,7 +64,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
             }
         }
 
-        // === System-level relationships (L1) ===
+        // ---------------------------------------- System-level relationships (L1) ----------------------------------------
         student -> healthExa "Uses for exam registration and viewing results" "HTTPS"
         teacher -> healthExa "Uses for exam management, rooms, credits and grades" "HTTPS"
         manager -> healthExa "Uses for statistics and reports" "HTTPS"
@@ -72,7 +72,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
         healthExa -> sis  "Reads course and enrolment data; writes official results and credits" "REST/DB"
         healthExa -> mail "Sends notification e-mails" "SMTP"
 
-        // === Container-level relationships (L2) ===
+        // ---------------------------------------- Container-level relationships (L2) ----------------------------------------
         student -> webApp "Uses via browser" "HTTPS"
         teacher -> webApp "Uses via browser" "HTTPS"
         manager -> webApp "Uses via browser" "HTTPS"
@@ -86,7 +86,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
         notificationWorker -> mail  "Sends e-mails" "SMTP"
         notificationWorker -> exaDb "Logs notification status" "JDBC"
 
-        // === Component relationships (L3 – key ones only) ===
+        // ---------------------------------------- Component relationships (L3 – key ones only) ----------------------------------------
         loginPage        -> authService          "Authenticates user via"
         registrationPage -> courseLookupService  "Searches course via"
         registrationPage -> examTermQueryService "Loads exam terms via"
@@ -127,7 +127,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
         roomReservationNotifier -> notificationLog  "Writes"
         resultNotifier          -> notificationLog  "Writes"
 
-        // === Deployment environments (for 2 deployment diagrams) ===
+        // ---------------------------------------- Deployment environments (for 2 deployment diagrams) ----------------------------------------
         deploymentEnvironment "Dev/Test" {
             deploymentNode "Developer Laptop" "Local development or test environment" "Docker / local runtime" {
                 containerInstance webApp
@@ -167,17 +167,17 @@ workspace "Exam Handling System" "C4 model for EXA project" {
 
     views {
 
-        // ===== L1 – System context =====
+        // ---------------------------------------- L1 – System context ----------------------------------------
         systemContext healthExa "exaSystemContextDiagram" {
             include *
         }
 
-        // ===== L2 – Containers =====
+        // ---------------------------------------- L2 – Containers ----------------------------------------
         container healthExa "exaContainerDiagram" {
             include *
         }
 
-        // ===== L3 – Components (one per container) =====
+        // ---------------------------------------- L3 – Components (one per container) ----------------------------------------
         component webApp "exaWebAppComponentDiagram" {
             include *
         }
@@ -194,7 +194,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
             include *
         }
 
-        // ===== Dynamic diagrams – one per feature =====
+        // ---------------------------------------- Dynamic diagrams – one per feature ----------------------------------------
 
         dynamic healthExa "studentExamRegistrationDynamic" {
             title "Feature: Student exam registration"
@@ -224,7 +224,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
             teacher -> webApp             "Sees successful reservation message"
         }
 
-        // ===== Deployment diagrams =====
+        // ---------------------------------------- Deployment diagrams ----------------------------------------
         deployment healthExa "Dev/Test" "exaDevDeployment" {
             include *
         }
@@ -233,7 +233,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
             include *
         }
 
-        // ===== Styles =====
+        // ---------------------------------------- Styles ----------------------------------------
         theme default
 
         styles {
