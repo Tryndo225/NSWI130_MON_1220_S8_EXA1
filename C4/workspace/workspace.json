@@ -1,0 +1,1654 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "C4 model for EXA project",
+  "documentation" : { },
+  "id" : 0,
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "34",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Dev/Test",
+          "id" : "93",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "73d7c33b-9970-45ac-bb88-d466c96dba1f"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Test database",
+        "environment" : "Dev/Test",
+        "id" : "92",
+        "instances" : "1",
+        "name" : "Local DB",
+        "properties" : {
+          "structurizr.dsl.identifier" : "46f5edea-92c8-4ac1-a90a-41695929708b"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "PostgreSQL"
+      } ],
+      "containerInstances" : [ {
+        "containerId" : "7",
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Dev/Test",
+        "id" : "87",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "77b1c151-b496-40a1-9d46-3b0aafd18ca5"
+        },
+        "relationships" : [ {
+          "description" : "Invokes application use cases",
+          "destinationId" : "88",
+          "id" : "89",
+          "linkedRelationshipId" : "47",
+          "sourceId" : "87",
+          "technology" : "HTTPS/JSON"
+        } ],
+        "tags" : "Container Instance"
+      }, {
+        "containerId" : "14",
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Dev/Test",
+        "id" : "88",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "6464b7ff-597b-4cae-9320-9bfda735fe88"
+        },
+        "relationships" : [ {
+          "description" : "Publishes notification events",
+          "destinationId" : "90",
+          "id" : "91",
+          "linkedRelationshipId" : "50",
+          "sourceId" : "88",
+          "technology" : "Async message / queue"
+        }, {
+          "description" : "Reads from and writes to exam data",
+          "destinationId" : "93",
+          "id" : "94",
+          "linkedRelationshipId" : "48",
+          "sourceId" : "88",
+          "technology" : "JDBC"
+        }, {
+          "description" : "Reads enrolment/requirements; writes results",
+          "destinationId" : "97",
+          "id" : "98",
+          "linkedRelationshipId" : "49",
+          "sourceId" : "88",
+          "technology" : "REST/DB"
+        } ],
+        "tags" : "Container Instance"
+      }, {
+        "containerId" : "28",
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Dev/Test",
+        "id" : "90",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "d7723906-4c4a-4f59-bd92-427c1ead8145"
+        },
+        "relationships" : [ {
+          "description" : "Logs notification status",
+          "destinationId" : "93",
+          "id" : "95",
+          "linkedRelationshipId" : "52",
+          "sourceId" : "90",
+          "technology" : "JDBC"
+        }, {
+          "description" : "Sends e-mails",
+          "destinationId" : "99",
+          "id" : "100",
+          "linkedRelationshipId" : "51",
+          "sourceId" : "90",
+          "technology" : "SMTP"
+        } ],
+        "tags" : "Container Instance"
+      } ],
+      "description" : "Local development or test environment",
+      "environment" : "Dev/Test",
+      "id" : "86",
+      "instances" : "1",
+      "name" : "Developer Laptop",
+      "properties" : {
+        "structurizr.dsl.identifier" : "996cc85e-6654-41b0-8dfd-119a123c1c9b"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "Docker / local runtime"
+    }, {
+      "description" : "Stubbed versions of external systems for development/test.",
+      "environment" : "Dev/Test",
+      "id" : "96",
+      "instances" : "1",
+      "name" : "External systems (dev stubs)",
+      "properties" : {
+        "structurizr.dsl.identifier" : "b06b58de-6a96-4fb7-bdc2-e908aa0e6a62"
+      },
+      "softwareSystemInstances" : [ {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Dev/Test",
+        "id" : "97",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "2d1795b5-5e62-4f61-bb03-bd59c22fea25"
+        },
+        "softwareSystemId" : "4",
+        "tags" : "Software System Instance"
+      }, {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Dev/Test",
+        "id" : "99",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "da889baa-a4d7-41ea-86d4-8de3098f9fb2"
+        },
+        "softwareSystemId" : "5",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node",
+      "technology" : "Docker containers / mock services"
+    }, {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "7",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Production",
+          "id" : "103",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "c453e085-b424-4eb4-af07-322db7e6c76f"
+          },
+          "relationships" : [ {
+            "description" : "Invokes application use cases",
+            "destinationId" : "105",
+            "id" : "106",
+            "linkedRelationshipId" : "47",
+            "sourceId" : "103",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Pod hosting the EXA web application.",
+        "environment" : "Production",
+        "id" : "102",
+        "instances" : "1",
+        "name" : "Web Pod",
+        "properties" : {
+          "structurizr.dsl.identifier" : "a50e8ffd-d1c1-4a47-ad38-c4b260d9f4fa"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Kubernetes Pod"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "14",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Production",
+          "id" : "105",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "5cf06702-626e-405c-b650-affb350e408b"
+          },
+          "relationships" : [ {
+            "description" : "Publishes notification events",
+            "destinationId" : "108",
+            "id" : "109",
+            "linkedRelationshipId" : "50",
+            "sourceId" : "105",
+            "technology" : "Async message / queue"
+          }, {
+            "description" : "Reads from and writes to exam data",
+            "destinationId" : "111",
+            "id" : "112",
+            "linkedRelationshipId" : "48",
+            "sourceId" : "105",
+            "technology" : "JDBC"
+          }, {
+            "description" : "Reads enrolment/requirements; writes results",
+            "destinationId" : "115",
+            "id" : "116",
+            "linkedRelationshipId" : "49",
+            "sourceId" : "105",
+            "technology" : "REST/DB"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Pod hosting the EXA application core.",
+        "environment" : "Production",
+        "id" : "104",
+        "instances" : "1",
+        "name" : "App Pod",
+        "properties" : {
+          "structurizr.dsl.identifier" : "1d7fe163-2f6a-4e56-931d-5d91787be6a8"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Kubernetes Pod"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "28",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Production",
+          "id" : "108",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "fc6edd3f-228c-454f-9850-b09b46ceba4b"
+          },
+          "relationships" : [ {
+            "description" : "Logs notification status",
+            "destinationId" : "111",
+            "id" : "113",
+            "linkedRelationshipId" : "52",
+            "sourceId" : "108",
+            "technology" : "JDBC"
+          }, {
+            "description" : "Sends e-mails",
+            "destinationId" : "117",
+            "id" : "118",
+            "linkedRelationshipId" : "51",
+            "sourceId" : "108",
+            "technology" : "SMTP"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "description" : "Pod hosting the EXA notification worker.",
+        "environment" : "Production",
+        "id" : "107",
+        "instances" : "1",
+        "name" : "Worker Pod",
+        "properties" : {
+          "structurizr.dsl.identifier" : "44b4e257-8296-485a-b33c-397a630c684e"
+        },
+        "tags" : "Element,Deployment Node",
+        "technology" : "Kubernetes Pod"
+      } ],
+      "description" : "Production app cluster",
+      "environment" : "Production",
+      "id" : "101",
+      "instances" : "1",
+      "name" : "Kubernetes Cluster",
+      "properties" : {
+        "structurizr.dsl.identifier" : "8b564ee6-ac47-4456-bd53-e2de461d2c4d"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "Kubernetes"
+    }, {
+      "containerInstances" : [ {
+        "containerId" : "34",
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Production",
+        "id" : "111",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "59c24fe1-2370-4fb3-b814-79b17baf55f6"
+        },
+        "tags" : "Container Instance"
+      } ],
+      "description" : "Managed relational database",
+      "environment" : "Production",
+      "id" : "110",
+      "instances" : "1",
+      "name" : "DB Server",
+      "properties" : {
+        "structurizr.dsl.identifier" : "25cfd410-8e7c-4977-ad7e-9ae43f30694f"
+      },
+      "tags" : "Element,Deployment Node",
+      "technology" : "PostgreSQL"
+    }, {
+      "description" : "Real external SIS and e-mail systems.",
+      "environment" : "Production",
+      "id" : "114",
+      "instances" : "1",
+      "name" : "External systems",
+      "properties" : {
+        "structurizr.dsl.identifier" : "a811717a-f413-4c31-9095-0a4a21156f72"
+      },
+      "softwareSystemInstances" : [ {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Production",
+        "id" : "115",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "c76ad26d-f276-4331-b5f1-661fde8ffad6"
+        },
+        "softwareSystemId" : "4",
+        "tags" : "Software System Instance"
+      }, {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Production",
+        "id" : "117",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "757fcecd-10f3-4130-9f68-a16e6b624c25"
+        },
+        "softwareSystemId" : "5",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node",
+      "technology" : "Managed external services"
+    } ],
+    "people" : [ {
+      "description" : "Registers for exams and views results.",
+      "id" : "1",
+      "name" : "Student",
+      "properties" : {
+        "structurizr.dsl.identifier" : "student"
+      },
+      "relationships" : [ {
+        "description" : "Uses for exam registration and viewing results",
+        "destinationId" : "6",
+        "id" : "39",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Uses via browser",
+        "destinationId" : "7",
+        "id" : "44",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person"
+    }, {
+      "description" : "Creates exam terms, reserves rooms, assigns credits and grades.",
+      "id" : "2",
+      "name" : "Teacher",
+      "properties" : {
+        "structurizr.dsl.identifier" : "teacher"
+      },
+      "relationships" : [ {
+        "description" : "Uses for exam management, rooms, credits and grades",
+        "destinationId" : "6",
+        "id" : "40",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Uses via browser",
+        "destinationId" : "7",
+        "id" : "45",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person"
+    }, {
+      "description" : "Views exam statistics and historical reports.",
+      "id" : "3",
+      "name" : "Manager",
+      "properties" : {
+        "structurizr.dsl.identifier" : "manager"
+      },
+      "relationships" : [ {
+        "description" : "Uses for statistics and reports",
+        "destinationId" : "6",
+        "id" : "41",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Uses via browser",
+        "destinationId" : "7",
+        "id" : "46",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Master data about students, courses, enrolment and official results.",
+      "documentation" : { },
+      "id" : "4",
+      "name" : "School Information System",
+      "properties" : {
+        "structurizr.dsl.identifier" : "sis"
+      },
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Delivers e-mail notifications.",
+      "documentation" : { },
+      "id" : "5",
+      "name" : "School Email",
+      "properties" : {
+        "structurizr.dsl.identifier" : "mail"
+      },
+      "tags" : "Element,Software System"
+    }, {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Authenticates users and protects exam features.",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "Login Page & Auth Guard",
+          "properties" : {
+            "structurizr.dsl.identifier" : "loginPage"
+          },
+          "relationships" : [ {
+            "description" : "Authenticates user via",
+            "destinationId" : "15",
+            "id" : "53",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Course lookup, exam term list and term selection.",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Exam Registration Page",
+          "properties" : {
+            "structurizr.dsl.identifier" : "registrationPage"
+          },
+          "relationships" : [ {
+            "description" : "Searches course via",
+            "destinationId" : "16",
+            "id" : "54",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          }, {
+            "description" : "Loads exam terms via",
+            "destinationId" : "17",
+            "id" : "55",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          }, {
+            "description" : "Submits registration to",
+            "destinationId" : "18",
+            "id" : "56",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Shows teacher's exam terms and opens the editor.",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "Exam Term Management Page",
+          "properties" : {
+            "structurizr.dsl.identifier" : "examManagementPage"
+          },
+          "relationships" : [ {
+            "description" : "Loads teacher exam terms via",
+            "destinationId" : "17",
+            "id" : "57",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Displays available rooms and 'Other location' selector.",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "Room Reservation Page",
+          "properties" : {
+            "structurizr.dsl.identifier" : "roomReservationPage"
+          },
+          "relationships" : [ {
+            "description" : "Requests available rooms via",
+            "destinationId" : "21",
+            "id" : "58",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          }, {
+            "description" : "Saves chosen room via",
+            "destinationId" : "22",
+            "id" : "59",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Shows exam outcomes, grades and statistics.",
+          "documentation" : { },
+          "id" : "12",
+          "name" : "Results & History Page",
+          "properties" : {
+            "structurizr.dsl.identifier" : "resultsPage"
+          },
+          "relationships" : [ {
+            "description" : "Requests statistics via",
+            "destinationId" : "25",
+            "id" : "60",
+            "sourceId" : "12",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Displays success/error messages and alerts.",
+          "documentation" : { },
+          "id" : "13",
+          "name" : "Notification Widget",
+          "properties" : {
+            "structurizr.dsl.identifier" : "notificationWidget"
+          },
+          "relationships" : [ {
+            "description" : "Subscribes to notification status via",
+            "destinationId" : "27",
+            "id" : "61",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "WebSocket / SSE"
+          } ],
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Web UI for students, teachers and managers.",
+        "documentation" : { },
+        "id" : "7",
+        "name" : "Web Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "webApp"
+        },
+        "relationships" : [ {
+          "description" : "Invokes application use cases",
+          "destinationId" : "14",
+          "id" : "47",
+          "sourceId" : "7",
+          "tags" : "Relationship",
+          "technology" : "HTTPS/JSON"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Web application"
+      }, {
+        "components" : [ {
+          "description" : "Provides the current user identity.",
+          "documentation" : { },
+          "id" : "15",
+          "name" : "Authentication Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "authService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Resolves courses from code/name and handles 'course not found'.",
+          "documentation" : { },
+          "id" : "16",
+          "name" : "Course Lookup Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "courseLookupService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Retrieves exam terms for a course or a teacher.",
+          "documentation" : { },
+          "id" : "17",
+          "name" : "Exam Term Query Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "examTermQueryService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Coordinates the full student exam registration process.",
+          "documentation" : { },
+          "id" : "18",
+          "name" : "Registration Workflow Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "registrationWorkflow"
+          },
+          "relationships" : [ {
+            "description" : "Delegates eligibility checks to",
+            "destinationId" : "19",
+            "id" : "62",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Delegates capacity check to",
+            "destinationId" : "20",
+            "id" : "63",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Creates/updates registration via",
+            "destinationId" : "26",
+            "id" : "64",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Publishes registration events to",
+            "destinationId" : "27",
+            "id" : "65",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Checks enrolment, max registration count, existing registrations and credit requirements.",
+          "documentation" : { },
+          "id" : "19",
+          "name" : "Eligibility Check Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "eligibilityService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Verifies and reserves capacity for an exam term.",
+          "documentation" : { },
+          "id" : "20",
+          "name" : "Capacity Check Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "capacityService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Looks up free rooms for a time period.",
+          "documentation" : { },
+          "id" : "21",
+          "name" : "Room Availability Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "roomAvailabilityService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Assigns a room or external location to an exam term.",
+          "documentation" : { },
+          "id" : "22",
+          "name" : "Room Reservation Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "roomReservationService"
+          },
+          "relationships" : [ {
+            "description" : "Validates chosen room via",
+            "destinationId" : "21",
+            "id" : "66",
+            "sourceId" : "22",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Updates exam term room via",
+            "destinationId" : "26",
+            "id" : "67",
+            "sourceId" : "22",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Publishes room reservation events to",
+            "destinationId" : "27",
+            "id" : "68",
+            "sourceId" : "22",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Allows teachers to record per-student course credit.",
+          "documentation" : { },
+          "id" : "23",
+          "name" : "Credit Assignment Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "creditService"
+          },
+          "relationships" : [ {
+            "description" : "Updates credit status via",
+            "destinationId" : "26",
+            "id" : "69",
+            "sourceId" : "23",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Publishes credit events to",
+            "destinationId" : "27",
+            "id" : "70",
+            "sourceId" : "23",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Allows teachers to record per-student course grades.",
+          "documentation" : { },
+          "id" : "24",
+          "name" : "Grade Assignment Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "gradeService"
+          },
+          "relationships" : [ {
+            "description" : "Updates grade status via",
+            "destinationId" : "26",
+            "id" : "71",
+            "sourceId" : "24",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Publishes grade events to",
+            "destinationId" : "27",
+            "id" : "72",
+            "sourceId" : "24",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Builds aggregated reports for managers and teachers.",
+          "documentation" : { },
+          "id" : "25",
+          "name" : "Statistics Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "statisticsService"
+          },
+          "relationships" : [ {
+            "description" : "Reads statistics and results from",
+            "destinationId" : "34",
+            "id" : "73",
+            "sourceId" : "25",
+            "tags" : "Relationship",
+            "technology" : "JDBC"
+          }, {
+            "description" : "Reads aggregated statistics via",
+            "destinationId" : "38",
+            "id" : "78",
+            "sourceId" : "25",
+            "tags" : "Relationship",
+            "technology" : "JDBC/SQL"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Reads and writes exam terms, rooms, registrations and results in the Exam Database.",
+          "documentation" : { },
+          "id" : "26",
+          "name" : "Exam Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "examRepository"
+          },
+          "relationships" : [ {
+            "description" : "Reads/writes exams, registrations and results",
+            "destinationId" : "34",
+            "id" : "74",
+            "sourceId" : "26",
+            "tags" : "Relationship",
+            "technology" : "JDBC"
+          }, {
+            "description" : "Reads/writes exam term data via",
+            "destinationId" : "35",
+            "id" : "75",
+            "sourceId" : "26",
+            "tags" : "Relationship",
+            "technology" : "JDBC/SQL"
+          }, {
+            "description" : "Reads/writes registration data via",
+            "destinationId" : "36",
+            "id" : "76",
+            "sourceId" : "26",
+            "tags" : "Relationship",
+            "technology" : "JDBC/SQL"
+          }, {
+            "description" : "Reads/writes results data via",
+            "destinationId" : "37",
+            "id" : "77",
+            "sourceId" : "26",
+            "tags" : "Relationship",
+            "technology" : "JDBC/SQL"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Creates domain events and forwards them to the Notification Worker.",
+          "documentation" : { },
+          "id" : "27",
+          "name" : "Notification Facade",
+          "properties" : {
+            "structurizr.dsl.identifier" : "notificationFacade"
+          },
+          "relationships" : [ {
+            "description" : "Sends notification commands to",
+            "destinationId" : "28",
+            "id" : "79",
+            "sourceId" : "27",
+            "tags" : "Relationship",
+            "technology" : "Async message / queue"
+          } ],
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Business logic for exam registration, room reservation, credits and grades.",
+        "documentation" : { },
+        "id" : "14",
+        "name" : "Application Core",
+        "properties" : {
+          "structurizr.dsl.identifier" : "appCore"
+        },
+        "relationships" : [ {
+          "description" : "Reads from and writes to exam data",
+          "destinationId" : "34",
+          "id" : "48",
+          "sourceId" : "14",
+          "tags" : "Relationship",
+          "technology" : "JDBC"
+        }, {
+          "description" : "Reads enrolment/requirements; writes results",
+          "destinationId" : "4",
+          "id" : "49",
+          "sourceId" : "14",
+          "tags" : "Relationship",
+          "technology" : "REST/DB"
+        }, {
+          "description" : "Publishes notification events",
+          "destinationId" : "28",
+          "id" : "50",
+          "sourceId" : "14",
+          "tags" : "Relationship",
+          "technology" : "Async message / queue"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Application service"
+      }, {
+        "components" : [ {
+          "description" : "Creates messages for successful or failed exam registrations.",
+          "documentation" : { },
+          "id" : "29",
+          "name" : "Registration Notifier",
+          "properties" : {
+            "structurizr.dsl.identifier" : "registrationNotifier"
+          },
+          "relationships" : [ {
+            "description" : "Uses for registration e-mails",
+            "destinationId" : "32",
+            "id" : "80",
+            "sourceId" : "29",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Writes notification log entry",
+            "destinationId" : "33",
+            "id" : "83",
+            "sourceId" : "29",
+            "tags" : "Relationship",
+            "technology" : "In-process call / JDBC"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Creates messages for successful room reservations or updates.",
+          "documentation" : { },
+          "id" : "30",
+          "name" : "Room Reservation Notifier",
+          "properties" : {
+            "structurizr.dsl.identifier" : "roomReservationNotifier"
+          },
+          "relationships" : [ {
+            "description" : "Uses for reservation e-mails",
+            "destinationId" : "32",
+            "id" : "81",
+            "sourceId" : "30",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Writes notification log entry",
+            "destinationId" : "33",
+            "id" : "84",
+            "sourceId" : "30",
+            "tags" : "Relationship",
+            "technology" : "In-process call / JDBC"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Sends messages when credits or grades are recorded.",
+          "documentation" : { },
+          "id" : "31",
+          "name" : "Result Notifier",
+          "properties" : {
+            "structurizr.dsl.identifier" : "resultNotifier"
+          },
+          "relationships" : [ {
+            "description" : "Uses for result e-mails",
+            "destinationId" : "32",
+            "id" : "82",
+            "sourceId" : "31",
+            "tags" : "Relationship",
+            "technology" : "In-process call"
+          }, {
+            "description" : "Writes notification log entry",
+            "destinationId" : "33",
+            "id" : "85",
+            "sourceId" : "31",
+            "tags" : "Relationship",
+            "technology" : "In-process call / JDBC"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Sends e-mails via the School Email system.",
+          "documentation" : { },
+          "id" : "32",
+          "name" : "Email Sender",
+          "properties" : {
+            "structurizr.dsl.identifier" : "emailSender"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Persists notification metadata and delivery status.",
+          "documentation" : { },
+          "id" : "33",
+          "name" : "Notification Log",
+          "properties" : {
+            "structurizr.dsl.identifier" : "notificationLog"
+          },
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Asynchronously builds and sends e-mail notifications and logs delivery.",
+        "documentation" : { },
+        "id" : "28",
+        "name" : "Notification Worker",
+        "properties" : {
+          "structurizr.dsl.identifier" : "notificationWorker"
+        },
+        "relationships" : [ {
+          "description" : "Sends e-mails",
+          "destinationId" : "5",
+          "id" : "51",
+          "sourceId" : "28",
+          "tags" : "Relationship",
+          "technology" : "SMTP"
+        }, {
+          "description" : "Logs notification status",
+          "destinationId" : "34",
+          "id" : "52",
+          "sourceId" : "28",
+          "tags" : "Relationship",
+          "technology" : "JDBC"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Background worker"
+      }, {
+        "components" : [ {
+          "description" : "Tables for exam terms and assigned rooms.",
+          "documentation" : { },
+          "id" : "35",
+          "name" : "Exam Terms Schema",
+          "properties" : {
+            "structurizr.dsl.identifier" : "examsSchema"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Tables for student registrations.",
+          "documentation" : { },
+          "id" : "36",
+          "name" : "Registrations Schema",
+          "properties" : {
+            "structurizr.dsl.identifier" : "registrationsSchema"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Tables for per-student credits and grades.",
+          "documentation" : { },
+          "id" : "37",
+          "name" : "Results Schema",
+          "properties" : {
+            "structurizr.dsl.identifier" : "resultsSchema"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Derived and historical statistics.",
+          "documentation" : { },
+          "id" : "38",
+          "name" : "Statistics Schema",
+          "properties" : {
+            "structurizr.dsl.identifier" : "statsSchema"
+          },
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Stores exam terms, registrations, rooms, credits, grades and statistics.",
+        "documentation" : { },
+        "id" : "34",
+        "name" : "Exam Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "exaDb"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "Relational database schema"
+      } ],
+      "description" : "Manages exam terms, registrations, rooms, results and statistics.",
+      "documentation" : { },
+      "id" : "6",
+      "name" : "Exam Handling System (EXA)",
+      "properties" : {
+        "structurizr.dsl.identifier" : "healthExa"
+      },
+      "relationships" : [ {
+        "description" : "Reads course and enrolment data; writes official results and credits",
+        "destinationId" : "4",
+        "id" : "42",
+        "sourceId" : "6",
+        "tags" : "Relationship",
+        "technology" : "REST/DB"
+      }, {
+        "description" : "Sends notification e-mails",
+        "destinationId" : "5",
+        "id" : "43",
+        "sourceId" : "6",
+        "tags" : "Relationship",
+        "technology" : "SMTP"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Exam Handling System",
+  "properties" : {
+    "structurizr.inspection.error" : "0",
+    "structurizr.inspection.model.softwaresystem.documentation" : "warning",
+    "structurizr.dsl" : "d29ya3NwYWNlICJFeGFtIEhhbmRsaW5nIFN5c3RlbSIgIkM0IG1vZGVsIGZvciBFWEEgcHJvamVjdCIgewoKICAgICFpbXBsaWVkUmVsYXRpb25zaGlwcyBmYWxzZQoKICAgIGNvbmZpZ3VyYXRpb24gewogICAgICAgIHNjb3BlIHNvZnR3YXJlc3lzdGVtCiAgICB9CgogICAgcHJvcGVydGllcyB7CiAgICAgICAgInN0cnVjdHVyaXpyLmluc3BlY3Rpb24ubW9kZWwuc29mdHdhcmVzeXN0ZW0uZG9jdW1lbnRhdGlvbiIgIndhcm5pbmciCiAgICAgICAgInN0cnVjdHVyaXpyLmluc3BlY3Rpb24ubW9kZWwuc29mdHdhcmVzeXN0ZW0uZGVjaXNpb25zIiAgICAgIndhcm5pbmciCiAgICB9CiAgICAKICAgIG1vZGVsIHsKCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBQZW9wbGUgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgIHN0dWRlbnQgPSBwZXJzb24gIlN0dWRlbnQiICJSZWdpc3RlcnMgZm9yIGV4YW1zIGFuZCB2aWV3cyByZXN1bHRzLiIKICAgICAgICB0ZWFjaGVyID0gcGVyc29uICJUZWFjaGVyIiAiQ3JlYXRlcyBleGFtIHRlcm1zLCByZXNlcnZlcyByb29tcywgYXNzaWducyBjcmVkaXRzIGFuZCBncmFkZXMuIgogICAgICAgIG1hbmFnZXIgPSBwZXJzb24gIk1hbmFnZXIiICJWaWV3cyBleGFtIHN0YXRpc3RpY3MgYW5kIGhpc3RvcmljYWwgcmVwb3J0cy4iCgogICAgICAgIC8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gRXh0ZXJuYWwgc3lzdGVtcyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgc2lzICA9IHNvZnR3YXJlU3lzdGVtICJTY2hvb2wgSW5mb3JtYXRpb24gU3lzdGVtIiAiTWFzdGVyIGRhdGEgYWJvdXQgc3R1ZGVudHMsIGNvdXJzZXMsIGVucm9sbWVudCBhbmQgb2ZmaWNpYWwgcmVzdWx0cy4iCiAgICAgICAgbWFpbCA9IHNvZnR3YXJlU3lzdGVtICJTY2hvb2wgRW1haWwiICJEZWxpdmVycyBlLW1haWwgbm90aWZpY2F0aW9ucy4iCgogICAgICAgIC8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gT3VyIHN5c3RlbSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgaGVhbHRoRXhhID0gc29mdHdhcmVTeXN0ZW0gIkV4YW0gSGFuZGxpbmcgU3lzdGVtIChFWEEpIiAiTWFuYWdlcyBleGFtIHRlcm1zLCByZWdpc3RyYXRpb25zLCByb29tcywgcmVzdWx0cyBhbmQgc3RhdGlzdGljcy4iIHsKICAgICAgICAgICAgLy8gLS0tLS0gQ29udGFpbmVyOiBXZWIgVUkgLS0tLS0KICAgICAgICAgICAgd2ViQXBwID0gY29udGFpbmVyICJXZWIgQXBwbGljYXRpb24iICJXZWIgVUkgZm9yIHN0dWRlbnRzLCB0ZWFjaGVycyBhbmQgbWFuYWdlcnMuIiAiV2ViIGFwcGxpY2F0aW9uIiB7CgogICAgICAgICAgICAgICAgbG9naW5QYWdlICAgICAgICAgICA9IGNvbXBvbmVudCAiTG9naW4gUGFnZSAmIEF1dGggR3VhcmQiICJBdXRoZW50aWNhdGVzIHVzZXJzIGFuZCBwcm90ZWN0cyBleGFtIGZlYXR1cmVzLiIKICAgICAgICAgICAgICAgIHJlZ2lzdHJhdGlvblBhZ2UgICAgPSBjb21wb25lbnQgIkV4YW0gUmVnaXN0cmF0aW9uIFBhZ2UiICJDb3Vyc2UgbG9va3VwLCBleGFtIHRlcm0gbGlzdCBhbmQgdGVybSBzZWxlY3Rpb24uIgogICAgICAgICAgICAgICAgZXhhbU1hbmFnZW1lbnRQYWdlICA9IGNvbXBvbmVudCAiRXhhbSBUZXJtIE1hbmFnZW1lbnQgUGFnZSIgIlNob3dzIHRlYWNoZXIncyBleGFtIHRlcm1zIGFuZCBvcGVucyB0aGUgZWRpdG9yLiIKICAgICAgICAgICAgICAgIHJvb21SZXNlcnZhdGlvblBhZ2UgPSBjb21wb25lbnQgIlJvb20gUmVzZXJ2YXRpb24gUGFnZSIgIkRpc3BsYXlzIGF2YWlsYWJsZSByb29tcyBhbmQgJ090aGVyIGxvY2F0aW9uJyBzZWxlY3Rvci4iCiAgICAgICAgICAgICAgICByZXN1bHRzUGFnZSAgICAgICAgID0gY29tcG9uZW50ICJSZXN1bHRzICYgSGlzdG9yeSBQYWdlIiAiU2hvd3MgZXhhbSBvdXRjb21lcywgZ3JhZGVzIGFuZCBzdGF0aXN0aWNzLiIKICAgICAgICAgICAgICAgIG5vdGlmaWNhdGlvbldpZGdldCAgPSBjb21wb25lbnQgIk5vdGlmaWNhdGlvbiBXaWRnZXQiICJEaXNwbGF5cyBzdWNjZXNzL2Vycm9yIG1lc3NhZ2VzIGFuZCBhbGVydHMuIgogICAgICAgICAgICB9CgogICAgICAgICAgICAvLyAtLS0tLSBDb250YWluZXI6IEFwcGxpY2F0aW9uIENvcmUgLS0tLS0KICAgICAgICAgICAgYXBwQ29yZSA9IGNvbnRhaW5lciAiQXBwbGljYXRpb24gQ29yZSIgIkJ1c2luZXNzIGxvZ2ljIGZvciBleGFtIHJlZ2lzdHJhdGlvbiwgcm9vbSByZXNlcnZhdGlvbiwgY3JlZGl0cyBhbmQgZ3JhZGVzLiIgIkFwcGxpY2F0aW9uIHNlcnZpY2UiIHsKCiAgICAgICAgICAgICAgICBhdXRoU2VydmljZSAgICAgICAgICAgICA9IGNvbXBvbmVudCAiQXV0aGVudGljYXRpb24gU2VydmljZSIgIlByb3ZpZGVzIHRoZSBjdXJyZW50IHVzZXIgaWRlbnRpdHkuIgogICAgICAgICAgICAgICAgY291cnNlTG9va3VwU2VydmljZSAgICAgPSBjb21wb25lbnQgIkNvdXJzZSBMb29rdXAgU2VydmljZSIgIlJlc29sdmVzIGNvdXJzZXMgZnJvbSBjb2RlL25hbWUgYW5kIGhhbmRsZXMgJ2NvdXJzZSBub3QgZm91bmQnLiIKICAgICAgICAgICAgICAgIGV4YW1UZXJtUXVlcnlTZXJ2aWNlICAgID0gY29tcG9uZW50ICJFeGFtIFRlcm0gUXVlcnkgU2VydmljZSIgIlJldHJpZXZlcyBleGFtIHRlcm1zIGZvciBhIGNvdXJzZSBvciBhIHRlYWNoZXIuIgogICAgICAgICAgICAgICAgcmVnaXN0cmF0aW9uV29ya2Zsb3cgICAgPSBjb21wb25lbnQgIlJlZ2lzdHJhdGlvbiBXb3JrZmxvdyBTZXJ2aWNlIiAiQ29vcmRpbmF0ZXMgdGhlIGZ1bGwgc3R1ZGVudCBleGFtIHJlZ2lzdHJhdGlvbiBwcm9jZXNzLiIKICAgICAgICAgICAgICAgIGVsaWdpYmlsaXR5U2VydmljZSAgICAgID0gY29tcG9uZW50ICJFbGlnaWJpbGl0eSBDaGVjayBTZXJ2aWNlIiAiQ2hlY2tzIGVucm9sbWVudCwgbWF4IHJlZ2lzdHJhdGlvbiBjb3VudCwgZXhpc3RpbmcgcmVnaXN0cmF0aW9ucyBhbmQgY3JlZGl0IHJlcXVpcmVtZW50cy4iCiAgICAgICAgICAgICAgICBjYXBhY2l0eVNlcnZpY2UgICAgICAgICA9IGNvbXBvbmVudCAiQ2FwYWNpdHkgQ2hlY2sgU2VydmljZSIgIlZlcmlmaWVzIGFuZCByZXNlcnZlcyBjYXBhY2l0eSBmb3IgYW4gZXhhbSB0ZXJtLiIKICAgICAgICAgICAgICAgIHJvb21BdmFpbGFiaWxpdHlTZXJ2aWNlID0gY29tcG9uZW50ICJSb29tIEF2YWlsYWJpbGl0eSBTZXJ2aWNlIiAiTG9va3MgdXAgZnJlZSByb29tcyBmb3IgYSB0aW1lIHBlcmlvZC4iCiAgICAgICAgICAgICAgICByb29tUmVzZXJ2YXRpb25TZXJ2aWNlICA9IGNvbXBvbmVudCAiUm9vbSBSZXNlcnZhdGlvbiBTZXJ2aWNlIiAiQXNzaWducyBhIHJvb20gb3IgZXh0ZXJuYWwgbG9jYXRpb24gdG8gYW4gZXhhbSB0ZXJtLiIKICAgICAgICAgICAgICAgIGNyZWRpdFNlcnZpY2UgICAgICAgICAgID0gY29tcG9uZW50ICJDcmVkaXQgQXNzaWdubWVudCBTZXJ2aWNlIiAiQWxsb3dzIHRlYWNoZXJzIHRvIHJlY29yZCBwZXItc3R1ZGVudCBjb3Vyc2UgY3JlZGl0LiIKICAgICAgICAgICAgICAgIGdyYWRlU2VydmljZSAgICAgICAgICAgID0gY29tcG9uZW50ICJHcmFkZSBBc3NpZ25tZW50IFNlcnZpY2UiICJBbGxvd3MgdGVhY2hlcnMgdG8gcmVjb3JkIHBlci1zdHVkZW50IGNvdXJzZSBncmFkZXMuIgogICAgICAgICAgICAgICAgc3RhdGlzdGljc1NlcnZpY2UgICAgICAgPSBjb21wb25lbnQgIlN0YXRpc3RpY3MgU2VydmljZSIgIkJ1aWxkcyBhZ2dyZWdhdGVkIHJlcG9ydHMgZm9yIG1hbmFnZXJzIGFuZCB0ZWFjaGVycy4iCiAgICAgICAgICAgICAgICBleGFtUmVwb3NpdG9yeSAgICAgICAgICA9IGNvbXBvbmVudCAiRXhhbSBSZXBvc2l0b3J5IiAiUmVhZHMgYW5kIHdyaXRlcyBleGFtIHRlcm1zLCByb29tcywgcmVnaXN0cmF0aW9ucyBhbmQgcmVzdWx0cyBpbiB0aGUgRXhhbSBEYXRhYmFzZS4iCiAgICAgICAgICAgICAgICBub3RpZmljYXRpb25GYWNhZGUgICAgICA9IGNvbXBvbmVudCAiTm90aWZpY2F0aW9uIEZhY2FkZSIgIkNyZWF0ZXMgZG9tYWluIGV2ZW50cyBhbmQgZm9yd2FyZHMgdGhlbSB0byB0aGUgTm90aWZpY2F0aW9uIFdvcmtlci4iCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIC8vIC0tLS0tIENvbnRhaW5lcjogTm90aWZpY2F0aW9uIFdvcmtlciAtLS0tLQogICAgICAgICAgICBub3RpZmljYXRpb25Xb3JrZXIgPSBjb250YWluZXIgIk5vdGlmaWNhdGlvbiBXb3JrZXIiICJBc3luY2hyb25vdXNseSBidWlsZHMgYW5kIHNlbmRzIGUtbWFpbCBub3RpZmljYXRpb25zIGFuZCBsb2dzIGRlbGl2ZXJ5LiIgIkJhY2tncm91bmQgd29ya2VyIiB7CgogICAgICAgICAgICAgICAgcmVnaXN0cmF0aW9uTm90aWZpZXIgICAgPSBjb21wb25lbnQgIlJlZ2lzdHJhdGlvbiBOb3RpZmllciIgIkNyZWF0ZXMgbWVzc2FnZXMgZm9yIHN1Y2Nlc3NmdWwgb3IgZmFpbGVkIGV4YW0gcmVnaXN0cmF0aW9ucy4iCiAgICAgICAgICAgICAgICByb29tUmVzZXJ2YXRpb25Ob3RpZmllciA9IGNvbXBvbmVudCAiUm9vbSBSZXNlcnZhdGlvbiBOb3RpZmllciIgIkNyZWF0ZXMgbWVzc2FnZXMgZm9yIHN1Y2Nlc3NmdWwgcm9vbSByZXNlcnZhdGlvbnMgb3IgdXBkYXRlcy4iCiAgICAgICAgICAgICAgICByZXN1bHROb3RpZmllciAgICAgICAgICA9IGNvbXBvbmVudCAiUmVzdWx0IE5vdGlmaWVyIiAiU2VuZHMgbWVzc2FnZXMgd2hlbiBjcmVkaXRzIG9yIGdyYWRlcyBhcmUgcmVjb3JkZWQuIgogICAgICAgICAgICAgICAgZW1haWxTZW5kZXIgICAgICAgICAgICAgPSBjb21wb25lbnQgIkVtYWlsIFNlbmRlciIgIlNlbmRzIGUtbWFpbHMgdmlhIHRoZSBTY2hvb2wgRW1haWwgc3lzdGVtLiIKICAgICAgICAgICAgICAgIG5vdGlmaWNhdGlvbkxvZyAgICAgICAgID0gY29tcG9uZW50ICJOb3RpZmljYXRpb24gTG9nIiAiUGVyc2lzdHMgbm90aWZpY2F0aW9uIG1ldGFkYXRhIGFuZCBkZWxpdmVyeSBzdGF0dXMuIgogICAgICAgICAgICB9CgogICAgICAgICAgICAvLyAtLS0tLSBDb250YWluZXI6IERhdGFiYXNlIC0tLS0tCiAgICAgICAgICAgIGV4YURiID0gY29udGFpbmVyICJFeGFtIERhdGFiYXNlIiAiU3RvcmVzIGV4YW0gdGVybXMsIHJlZ2lzdHJhdGlvbnMsIHJvb21zLCBjcmVkaXRzLCBncmFkZXMgYW5kIHN0YXRpc3RpY3MuIiAiUmVsYXRpb25hbCBkYXRhYmFzZSBzY2hlbWEiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGFiYXNlIgoKICAgICAgICAgICAgICAgIGV4YW1zU2NoZW1hICAgICAgICAgPSBjb21wb25lbnQgIkV4YW0gVGVybXMgU2NoZW1hIiAiVGFibGVzIGZvciBleGFtIHRlcm1zIGFuZCBhc3NpZ25lZCByb29tcy4iCiAgICAgICAgICAgICAgICByZWdpc3RyYXRpb25zU2NoZW1hID0gY29tcG9uZW50ICJSZWdpc3RyYXRpb25zIFNjaGVtYSIgIlRhYmxlcyBmb3Igc3R1ZGVudCByZWdpc3RyYXRpb25zLiIKICAgICAgICAgICAgICAgIHJlc3VsdHNTY2hlbWEgICAgICAgPSBjb21wb25lbnQgIlJlc3VsdHMgU2NoZW1hIiAiVGFibGVzIGZvciBwZXItc3R1ZGVudCBjcmVkaXRzIGFuZCBncmFkZXMuIgogICAgICAgICAgICAgICAgc3RhdHNTY2hlbWEgICAgICAgICA9IGNvbXBvbmVudCAiU3RhdGlzdGljcyBTY2hlbWEiICJEZXJpdmVkIGFuZCBoaXN0b3JpY2FsIHN0YXRpc3RpY3MuIgogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICAvLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIFN5c3RlbS1sZXZlbCByZWxhdGlvbnNoaXBzIChMMSkgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgIHN0dWRlbnQgLT4gaGVhbHRoRXhhICJVc2VzIGZvciBleGFtIHJlZ2lzdHJhdGlvbiBhbmQgdmlld2luZyByZXN1bHRzIiAiSFRUUFMiCiAgICAgICAgdGVhY2hlciAtPiBoZWFsdGhFeGEgIlVzZXMgZm9yIGV4YW0gbWFuYWdlbWVudCwgcm9vbXMsIGNyZWRpdHMgYW5kIGdyYWRlcyIgIkhUVFBTIgogICAgICAgIG1hbmFnZXIgLT4gaGVhbHRoRXhhICJVc2VzIGZvciBzdGF0aXN0aWNzIGFuZCByZXBvcnRzIiAiSFRUUFMiCgogICAgICAgIGhlYWx0aEV4YSAtPiBzaXMgICJSZWFkcyBjb3Vyc2UgYW5kIGVucm9sbWVudCBkYXRhOyB3cml0ZXMgb2ZmaWNpYWwgcmVzdWx0cyBhbmQgY3JlZGl0cyIgIlJFU1QvREIiCiAgICAgICAgaGVhbHRoRXhhIC0+IG1haWwgIlNlbmRzIG5vdGlmaWNhdGlvbiBlLW1haWxzIiAiU01UUCIKCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBDb250YWluZXItbGV2ZWwgcmVsYXRpb25zaGlwcyAoTDIpIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICBzdHVkZW50IC0+IHdlYkFwcCAiVXNlcyB2aWEgYnJvd3NlciIgIkhUVFBTIgogICAgICAgIHRlYWNoZXIgLT4gd2ViQXBwICJVc2VzIHZpYSBicm93c2VyIiAiSFRUUFMiCiAgICAgICAgbWFuYWdlciAtPiB3ZWJBcHAgIlVzZXMgdmlhIGJyb3dzZXIiICJIVFRQUyIKCiAgICAgICAgd2ViQXBwIC0+IGFwcENvcmUgIkludm9rZXMgYXBwbGljYXRpb24gdXNlIGNhc2VzIiAiSFRUUFMvSlNPTiIKCiAgICAgICAgYXBwQ29yZSAtPiBleGFEYiAiUmVhZHMgZnJvbSBhbmQgd3JpdGVzIHRvIGV4YW0gZGF0YSIgIkpEQkMiCiAgICAgICAgYXBwQ29yZSAtPiBzaXMgICAiUmVhZHMgZW5yb2xtZW50L3JlcXVpcmVtZW50czsgd3JpdGVzIHJlc3VsdHMiICJSRVNUL0RCIgogICAgICAgIGFwcENvcmUgLT4gbm90aWZpY2F0aW9uV29ya2VyICJQdWJsaXNoZXMgbm90aWZpY2F0aW9uIGV2ZW50cyIgIkFzeW5jIG1lc3NhZ2UgLyBxdWV1ZSIKCiAgICAgICAgbm90aWZpY2F0aW9uV29ya2VyIC0+IG1haWwgICJTZW5kcyBlLW1haWxzIiAiU01UUCIKICAgICAgICBub3RpZmljYXRpb25Xb3JrZXIgLT4gZXhhRGIgIkxvZ3Mgbm90aWZpY2F0aW9uIHN0YXR1cyIgIkpEQkMiCgogICAgICAgIC8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gQ29tcG9uZW50IHJlbGF0aW9uc2hpcHMgKEwzIOKAkyBrZXkgb25lcyBvbmx5KSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgbG9naW5QYWdlICAgICAgICAtPiBhdXRoU2VydmljZSAgICAgICAgICAiQXV0aGVudGljYXRlcyB1c2VyIHZpYSIgICAgICAgICAgICAgICAgICAgICJIVFRQUy9KU09OIgogICAgICAgIHJlZ2lzdHJhdGlvblBhZ2UgLT4gY291cnNlTG9va3VwU2VydmljZSAgIlNlYXJjaGVzIGNvdXJzZSB2aWEiICAgICAgICAgICAgICAgICAgICAgICAiSFRUUFMvSlNPTiIKICAgICAgICByZWdpc3RyYXRpb25QYWdlIC0+IGV4YW1UZXJtUXVlcnlTZXJ2aWNlICJMb2FkcyBleGFtIHRlcm1zIHZpYSIgICAgICAgICAgICAgICAgICAgICAgIkhUVFBTL0pTT04iCiAgICAgICAgcmVnaXN0cmF0aW9uUGFnZSAtPiByZWdpc3RyYXRpb25Xb3JrZmxvdyAiU3VibWl0cyByZWdpc3RyYXRpb24gdG8iICAgICAgICAgICAgICAgICAgICJIVFRQUy9KU09OIgoKICAgICAgICBleGFtTWFuYWdlbWVudFBhZ2UgIC0+IGV4YW1UZXJtUXVlcnlTZXJ2aWNlICAgICJMb2FkcyB0ZWFjaGVyIGV4YW0gdGVybXMgdmlhIiAgICAgICAgIkhUVFBTL0pTT04iCiAgICAgICAgcm9vbVJlc2VydmF0aW9uUGFnZSAtPiByb29tQXZhaWxhYmlsaXR5U2VydmljZSAiUmVxdWVzdHMgYXZhaWxhYmxlIHJvb21zIHZpYSIgICAgICAgICJIVFRQUy9KU09OIgogICAgICAgIHJvb21SZXNlcnZhdGlvblBhZ2UgLT4gcm9vbVJlc2VydmF0aW9uU2VydmljZSAgIlNhdmVzIGNob3NlbiByb29tIHZpYSIgICAgICAgICAgICAgICAiSFRUUFMvSlNPTiIKCiAgICAgICAgcmVzdWx0c1BhZ2UgICAgICAgIC0+IHN0YXRpc3RpY3NTZXJ2aWNlICAiUmVxdWVzdHMgc3RhdGlzdGljcyB2aWEiICAgICAgICAgICAgICAgICAgICJIVFRQUy9KU09OIgogICAgICAgIG5vdGlmaWNhdGlvbldpZGdldCAtPiBub3RpZmljYXRpb25GYWNhZGUgIlN1YnNjcmliZXMgdG8gbm90aWZpY2F0aW9uIHN0YXR1cyB2aWEiICAgICAiV2ViU29ja2V0IC8gU1NFIgoKICAgICAgICByZWdpc3RyYXRpb25Xb3JrZmxvdyAtPiBlbGlnaWJpbGl0eVNlcnZpY2UgIkRlbGVnYXRlcyBlbGlnaWJpbGl0eSBjaGVja3MgdG8iICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByZWdpc3RyYXRpb25Xb3JrZmxvdyAtPiBjYXBhY2l0eVNlcnZpY2UgICAgIkRlbGVnYXRlcyBjYXBhY2l0eSBjaGVjayB0byIgICAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByZWdpc3RyYXRpb25Xb3JrZmxvdyAtPiBleGFtUmVwb3NpdG9yeSAgICAgIkNyZWF0ZXMvdXBkYXRlcyByZWdpc3RyYXRpb24gdmlhIiAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByZWdpc3RyYXRpb25Xb3JrZmxvdyAtPiBub3RpZmljYXRpb25GYWNhZGUgIlB1Ymxpc2hlcyByZWdpc3RyYXRpb24gZXZlbnRzIHRvIiAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKCiAgICAgICAgcm9vbVJlc2VydmF0aW9uU2VydmljZSAtPiByb29tQXZhaWxhYmlsaXR5U2VydmljZSAiVmFsaWRhdGVzIGNob3NlbiByb29tIHZpYSIgICAgICAgICJJbi1wcm9jZXNzIGNhbGwiCiAgICAgICAgcm9vbVJlc2VydmF0aW9uU2VydmljZSAtPiBleGFtUmVwb3NpdG9yeSAgICAgICAgICAiVXBkYXRlcyBleGFtIHRlcm0gcm9vbSB2aWEiICAgICAgICJJbi1wcm9jZXNzIGNhbGwiCiAgICAgICAgcm9vbVJlc2VydmF0aW9uU2VydmljZSAtPiBub3RpZmljYXRpb25GYWNhZGUgICAgICAiUHVibGlzaGVzIHJvb20gcmVzZXJ2YXRpb24gZXZlbnRzIHRvIiAiSW4tcHJvY2VzcyBjYWxsIgoKICAgICAgICBjcmVkaXRTZXJ2aWNlIC0+IGV4YW1SZXBvc2l0b3J5ICAgICAiVXBkYXRlcyBjcmVkaXQgc3RhdHVzIHZpYSIgICAgICAgICAgICAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICBjcmVkaXRTZXJ2aWNlIC0+IG5vdGlmaWNhdGlvbkZhY2FkZSAiUHVibGlzaGVzIGNyZWRpdCBldmVudHMgdG8iICAgICAgICAgICAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKCiAgICAgICAgZ3JhZGVTZXJ2aWNlICAtPiBleGFtUmVwb3NpdG9yeSAgICAgIlVwZGF0ZXMgZ3JhZGUgc3RhdHVzIHZpYSIgICAgICAgICAgICAgICAgICAgICAgICJJbi1wcm9jZXNzIGNhbGwiCiAgICAgICAgZ3JhZGVTZXJ2aWNlICAtPiBub3RpZmljYXRpb25GYWNhZGUgIlB1Ymxpc2hlcyBncmFkZSBldmVudHMgdG8iICAgICAgICAgICAgICAgICAgICAgICJJbi1wcm9jZXNzIGNhbGwiCgogICAgICAgIHN0YXRpc3RpY3NTZXJ2aWNlIC0+IGV4YURiICJSZWFkcyBzdGF0aXN0aWNzIGFuZCByZXN1bHRzIGZyb20iICAgICAgICAgICAgICAgICAgICAgICAiSkRCQyIKICAgICAgICBleGFtUmVwb3NpdG9yeSAgICAtPiBleGFEYiAiUmVhZHMvd3JpdGVzIGV4YW1zLCByZWdpc3RyYXRpb25zIGFuZCByZXN1bHRzIiAgICAgICAgICAgIkpEQkMiCgogICAgICAgIC8vIENvbm5lY3QgY29yZSBjb21wb25lbnRzIGRpcmVjdGx5IHRvIERCIHNjaGVtYXMgc28gc2NoZW1hcyBhcmUgbm90IGRpc2Nvbm5lY3RlZAogICAgICAgIGV4YW1SZXBvc2l0b3J5ICAgIC0+IGV4YW1zU2NoZW1hICAgICAgICAgIlJlYWRzL3dyaXRlcyBleGFtIHRlcm0gZGF0YSB2aWEiICAgICAgICAgICAiSkRCQy9TUUwiCiAgICAgICAgZXhhbVJlcG9zaXRvcnkgICAgLT4gcmVnaXN0cmF0aW9uc1NjaGVtYSAiUmVhZHMvd3JpdGVzIHJlZ2lzdHJhdGlvbiBkYXRhIHZpYSIgICAgICAgICJKREJDL1NRTCIKICAgICAgICBleGFtUmVwb3NpdG9yeSAgICAtPiByZXN1bHRzU2NoZW1hICAgICAgICJSZWFkcy93cml0ZXMgcmVzdWx0cyBkYXRhIHZpYSIgICAgICAgICAgICAgIkpEQkMvU1FMIgogICAgICAgIHN0YXRpc3RpY3NTZXJ2aWNlIC0+IHN0YXRzU2NoZW1hICAgICAgICAgIlJlYWRzIGFnZ3JlZ2F0ZWQgc3RhdGlzdGljcyB2aWEiICAgICAgICAgICAiSkRCQy9TUUwiCgogICAgICAgIG5vdGlmaWNhdGlvbkZhY2FkZSAtPiBub3RpZmljYXRpb25Xb3JrZXIgIlNlbmRzIG5vdGlmaWNhdGlvbiBjb21tYW5kcyB0byIgICAgICAgICAgICAiQXN5bmMgbWVzc2FnZSAvIHF1ZXVlIgoKICAgICAgICByZWdpc3RyYXRpb25Ob3RpZmllciAgICAtPiBlbWFpbFNlbmRlciAgICAgIlVzZXMgZm9yIHJlZ2lzdHJhdGlvbiBlLW1haWxzIiAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByb29tUmVzZXJ2YXRpb25Ob3RpZmllciAtPiBlbWFpbFNlbmRlciAgICAgIlVzZXMgZm9yIHJlc2VydmF0aW9uIGUtbWFpbHMiICAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByZXN1bHROb3RpZmllciAgICAgICAgICAtPiBlbWFpbFNlbmRlciAgICAgIlVzZXMgZm9yIHJlc3VsdCBlLW1haWxzIiAgICAgICAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCIKICAgICAgICByZWdpc3RyYXRpb25Ob3RpZmllciAgICAtPiBub3RpZmljYXRpb25Mb2cgIldyaXRlcyBub3RpZmljYXRpb24gbG9nIGVudHJ5IiAgICAgICAgICAgIkluLXByb2Nlc3MgY2FsbCAvIEpEQkMiCiAgICAgICAgcm9vbVJlc2VydmF0aW9uTm90aWZpZXIgLT4gbm90aWZpY2F0aW9uTG9nICJXcml0ZXMgbm90aWZpY2F0aW9uIGxvZyBlbnRyeSIgICAgICAgICAgICJJbi1wcm9jZXNzIGNhbGwgLyBKREJDIgogICAgICAgIHJlc3VsdE5vdGlmaWVyICAgICAgICAgIC0+IG5vdGlmaWNhdGlvbkxvZyAiV3JpdGVzIG5vdGlmaWNhdGlvbiBsb2cgZW50cnkiICAgICAgICAgICAiSW4tcHJvY2VzcyBjYWxsIC8gSkRCQyIKCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBEZXBsb3ltZW50IGVudmlyb25tZW50cyAoZm9yIDIgZGVwbG95bWVudCBkaWFncmFtcykgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgIGRlcGxveW1lbnRFbnZpcm9ubWVudCAiRGV2L1Rlc3QiIHsKICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkRldmVsb3BlciBMYXB0b3AiICJMb2NhbCBkZXZlbG9wbWVudCBvciB0ZXN0IGVudmlyb25tZW50IiAiRG9ja2VyIC8gbG9jYWwgcnVudGltZSIgewogICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2Ugd2ViQXBwCiAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBhcHBDb3JlCiAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBub3RpZmljYXRpb25Xb3JrZXIKICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJMb2NhbCBEQiIgIlRlc3QgZGF0YWJhc2UiICJQb3N0Z3JlU1FMIiB7CiAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgZXhhRGIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRXh0ZXJuYWwgc3lzdGVtcyAoZGV2IHN0dWJzKSIgIlN0dWJiZWQgdmVyc2lvbnMgb2YgZXh0ZXJuYWwgc3lzdGVtcyBmb3IgZGV2ZWxvcG1lbnQvdGVzdC4iICJEb2NrZXIgY29udGFpbmVycyAvIG1vY2sgc2VydmljZXMiIHsKICAgICAgICAgICAgICAgIHNvZnR3YXJlU3lzdGVtSW5zdGFuY2Ugc2lzCiAgICAgICAgICAgICAgICBzb2Z0d2FyZVN5c3RlbUluc3RhbmNlIG1haWwKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgZGVwbG95bWVudEVudmlyb25tZW50ICJQcm9kdWN0aW9uIiB7CiAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJLdWJlcm5ldGVzIENsdXN0ZXIiICJQcm9kdWN0aW9uIGFwcCBjbHVzdGVyIiAiS3ViZXJuZXRlcyIgewogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIldlYiBQb2QiICJQb2QgaG9zdGluZyB0aGUgRVhBIHdlYiBhcHBsaWNhdGlvbi4iICJLdWJlcm5ldGVzIFBvZCIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHdlYkFwcAogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkFwcCBQb2QiICJQb2QgaG9zdGluZyB0aGUgRVhBIGFwcGxpY2F0aW9uIGNvcmUuIiAiS3ViZXJuZXRlcyBQb2QiIHsKICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBhcHBDb3JlCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiV29ya2VyIFBvZCIgIlBvZCBob3N0aW5nIHRoZSBFWEEgbm90aWZpY2F0aW9uIHdvcmtlci4iICJLdWJlcm5ldGVzIFBvZCIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIG5vdGlmaWNhdGlvbldvcmtlcgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJEQiBTZXJ2ZXIiICJNYW5hZ2VkIHJlbGF0aW9uYWwgZGF0YWJhc2UiICJQb3N0Z3JlU1FMIiB7CiAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBleGFEYgogICAgICAgICAgICB9CiAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJFeHRlcm5hbCBzeXN0ZW1zIiAiUmVhbCBleHRlcm5hbCBTSVMgYW5kIGUtbWFpbCBzeXN0ZW1zLiIgIk1hbmFnZWQgZXh0ZXJuYWwgc2VydmljZXMiIHsKICAgICAgICAgICAgICAgIHNvZnR3YXJlU3lzdGVtSW5zdGFuY2Ugc2lzCiAgICAgICAgICAgICAgICBzb2Z0d2FyZVN5c3RlbUluc3RhbmNlIG1haWwKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICB2aWV3cyB7CgogICAgICAgIC8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gTDEg4oCTIFN5c3RlbSBjb250ZXh0IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICBzeXN0ZW1Db250ZXh0IGhlYWx0aEV4YSAiZXhhU3lzdGVtQ29udGV4dERpYWdyYW0iIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgfQoKICAgICAgICAvLyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIEwyIOKAkyBDb250YWluZXJzIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICBjb250YWluZXIgaGVhbHRoRXhhICJleGFDb250YWluZXJEaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBMMyDigJMgQ29tcG9uZW50cyAob25lIHBlciBjb250YWluZXIpIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICBjb21wb25lbnQgd2ViQXBwICJleGFXZWJBcHBDb21wb25lbnREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IGFwcENvcmUgImV4YUNvcmVDb21wb25lbnREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IG5vdGlmaWNhdGlvbldvcmtlciAiZXhhTm90aWZpY2F0aW9uQ29tcG9uZW50RGlhZ3JhbSIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBleGFEYiAiZXhhRGJDb21wb25lbnREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBEeW5hbWljIGRpYWdyYW1zIOKAkyBvbmUgcGVyIGZlYXR1cmUgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKICAgICAgICBkeW5hbWljIGhlYWx0aEV4YSAic3R1ZGVudEV4YW1SZWdpc3RyYXRpb25EeW5hbWljIiB7CiAgICAgICAgICAgIHRpdGxlICJGZWF0dXJlOiBTdHVkZW50IGV4YW0gcmVnaXN0cmF0aW9uIgogICAgICAgICAgICBzdHVkZW50ICAtPiB3ZWJBcHAgICAgICAgICAgICAgIk9wZW5zIGV4YW0gcmVnaXN0cmF0aW9uIFVJIgogICAgICAgICAgICB3ZWJBcHAgICAtPiBhcHBDb3JlICAgICAgICAgICAgIlJlcXVlc3RzIGV4YW0gdGVybXMgZm9yIHNlbGVjdGVkIGNvdXJzZSIKICAgICAgICAgICAgYXBwQ29yZSAgLT4gc2lzICAgICAgICAgICAgICAgICJSZWFkcyBjb3Vyc2UgYW5kIHJlcXVpcmVtZW50IGRhdGEiCiAgICAgICAgICAgIGFwcENvcmUgIC0+IGV4YURiICAgICAgICAgICAgICAiUmVhZHMgZXhpc3RpbmcgZXhhbSB0ZXJtcyBhbmQgcmVnaXN0cmF0aW9ucyIKICAgICAgICAgICAgd2ViQXBwICAgLT4gYXBwQ29yZSAgICAgICAgICAgICJTdWJtaXRzIHJlZ2lzdHJhdGlvbiBmb3IgY2hvc2VuIHRlcm0iCiAgICAgICAgICAgIGFwcENvcmUgIC0+IHNpcyAgICAgICAgICAgICAgICAiQ2hlY2tzIGVucm9sbWVudCBhbmQgY3JlZGl0IHN0YXR1cyIKICAgICAgICAgICAgYXBwQ29yZSAgLT4gZXhhRGIgICAgICAgICAgICAgICJDaGVja3MgYW5kIHJlc2VydmVzIGNhcGFjaXR5LCBzdG9yZXMgcmVnaXN0cmF0aW9uIgogICAgICAgICAgICBhcHBDb3JlICAtPiBub3RpZmljYXRpb25Xb3JrZXIgIlB1Ymxpc2hlcyByZWdpc3RyYXRpb24tY3JlYXRlZCBldmVudCIKICAgICAgICAgICAgbm90aWZpY2F0aW9uV29ya2VyIC0+IG1haWwgICAgICJTZW5kcyBjb25maXJtYXRpb24gZS1tYWlsIgogICAgICAgICAgICBzdHVkZW50ICAtPiB3ZWJBcHAgICAgICAgICAgICAgIlNlZXMgcmVnaXN0cmF0aW9uIGNvbmZpcm1hdGlvbiIKICAgICAgICB9CgogICAgICAgIGR5bmFtaWMgaGVhbHRoRXhhICJyb29tUmVzZXJ2YXRpb25EeW5hbWljIiB7CiAgICAgICAgICAgIHRpdGxlICJGZWF0dXJlOiBSZXNlcnZhdGlvbiBvZiBleGFtIHByZW1pc2VzIgogICAgICAgICAgICB0ZWFjaGVyIC0+IHdlYkFwcCAgICAgICAgICAgICAiT3BlbnMgZXhhbSB0ZXJtIG1hbmFnZW1lbnQgVUkiCiAgICAgICAgICAgIHdlYkFwcCAgLT4gYXBwQ29yZSAgICAgICAgICAgICJSZXF1ZXN0cyB0ZWFjaGVyJ3MgZXhhbSB0ZXJtcyIKICAgICAgICAgICAgYXBwQ29yZSAtPiBleGFEYiAgICAgICAgICAgICAgIlJlYWRzIGV4YW0gdGVybXMgZm9yIHRlYWNoZXIiCiAgICAgICAgICAgIHRlYWNoZXIgLT4gd2ViQXBwICAgICAgICAgICAgICJDaG9vc2VzIGFuIGV4YW0gdGVybSBhbmQgb3BlbnMgcm9vbSBzZWxlY3Rpb24iCiAgICAgICAgICAgIHdlYkFwcCAgLT4gYXBwQ29yZSAgICAgICAgICAgICJSZXF1ZXN0cyBhdmFpbGFibGUgcm9vbXMgZm9yIHRoYXQgdGVybSIKICAgICAgICAgICAgYXBwQ29yZSAtPiBleGFEYiAgICAgICAgICAgICAgIkNoZWNrcyBleGlzdGluZyByb29tIHJlc2VydmF0aW9ucyIKICAgICAgICAgICAgYXBwQ29yZSAtPiBleGFEYiAgICAgICAgICAgICAgIk1hcmtzIGNob3NlbiByb29tIGFzIHJlc2VydmVkIGFuZCB1cGRhdGVzIGV4YW0gdGVybSIKICAgICAgICAgICAgYXBwQ29yZSAtPiBub3RpZmljYXRpb25Xb3JrZXIgIlB1Ymxpc2hlcyByb29tLXJlc2VydmVkIGV2ZW50IgogICAgICAgICAgICBub3RpZmljYXRpb25Xb3JrZXIgLT4gbWFpbCAgICAiU2VuZHMgY29uZmlybWF0aW9uIGUtbWFpbCIKICAgICAgICAgICAgdGVhY2hlciAtPiB3ZWJBcHAgICAgICAgICAgICAgIlNlZXMgc3VjY2Vzc2Z1bCByZXNlcnZhdGlvbiBtZXNzYWdlIgogICAgICAgIH0KCiAgICAgICAgLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBEZXBsb3ltZW50IGRpYWdyYW1zIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICBkZXBsb3ltZW50IGhlYWx0aEV4YSAiRGV2L1Rlc3QiICJleGFEZXZEZXBsb3ltZW50IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgZGVwbG95bWVudCBoZWFsdGhFeGEgIlByb2R1Y3Rpb24iICJleGFQcm9kRGVwbG95bWVudCIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICB9CgogICAgICAgIC8vIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gU3R5bGVzIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICAgICAgICB0aGVtZSBkZWZhdWx0CgogICAgICAgIHN0eWxlcyB7CiAgICAgICAgICAgIGVsZW1lbnQgIkV4aXN0aW5nIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjOTk5OTk5CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiAgewogICAgICAgICAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KfQ==",
+    "structurizr.inspection.model.softwaresystem.decisions" : "warning",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "2"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "containerId" : "7",
+      "elements" : [ {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "exaWebAppComponentDiagram",
+      "name" : "Component View: Exam Handling System (EXA) - Web Application",
+      "order" : 3
+    }, {
+      "containerId" : "14",
+      "elements" : [ {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "16",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "17",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "18",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "19",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "20",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "21",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "22",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "24",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "25",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "26",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "34",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "exaCoreComponentDiagram",
+      "name" : "Component View: Exam Handling System (EXA) - Application Core",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "52"
+      }, {
+        "id" : "62"
+      }, {
+        "id" : "63"
+      }, {
+        "id" : "64"
+      }, {
+        "id" : "65"
+      }, {
+        "id" : "66"
+      }, {
+        "id" : "67"
+      }, {
+        "id" : "68"
+      }, {
+        "id" : "69"
+      }, {
+        "id" : "70"
+      }, {
+        "id" : "71"
+      }, {
+        "id" : "72"
+      }, {
+        "id" : "73"
+      }, {
+        "id" : "74"
+      }, {
+        "id" : "79"
+      } ]
+    }, {
+      "containerId" : "28",
+      "elements" : [ {
+        "id" : "29",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "30",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "31",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "32",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "33",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "exaNotificationComponentDiagram",
+      "name" : "Component View: Exam Handling System (EXA) - Notification Worker",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "80"
+      }, {
+        "id" : "81"
+      }, {
+        "id" : "82"
+      }, {
+        "id" : "83"
+      }, {
+        "id" : "84"
+      }, {
+        "id" : "85"
+      } ]
+    }, {
+      "containerId" : "34",
+      "elements" : [ {
+        "id" : "35",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "36",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "37",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "38",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "exaDbComponentDiagram",
+      "name" : "Component View: Exam Handling System (EXA) - Exam Database",
+      "order" : 6
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "styles" : {
+        "elements" : [ {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "tag" : "Existing System"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json" ]
+    },
+    "containerViews" : [ {
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "34",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "exaContainerDiagram",
+      "name" : "Container View: Exam Handling System (EXA)",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "44"
+      }, {
+        "id" : "45"
+      }, {
+        "id" : "46"
+      }, {
+        "id" : "47"
+      }, {
+        "id" : "48"
+      }, {
+        "id" : "49"
+      }, {
+        "id" : "50"
+      }, {
+        "id" : "51"
+      }, {
+        "id" : "52"
+      } ],
+      "softwareSystemId" : "6"
+    } ],
+    "deploymentViews" : [ {
+      "elements" : [ {
+        "id" : "86",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "87",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "88",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "90",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "92",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "93",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "96",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "97",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "99",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Dev/Test",
+      "key" : "exaDevDeployment",
+      "name" : "Deployment View: Exam Handling System (EXA) - Dev/Test",
+      "order" : 9,
+      "relationships" : [ {
+        "id" : "100"
+      }, {
+        "id" : "89"
+      }, {
+        "id" : "91"
+      }, {
+        "id" : "94"
+      }, {
+        "id" : "95"
+      }, {
+        "id" : "98"
+      } ],
+      "softwareSystemId" : "6"
+    }, {
+      "elements" : [ {
+        "id" : "101",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "102",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "103",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "104",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "105",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "107",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "108",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "110",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "111",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "114",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "115",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "117",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Production",
+      "key" : "exaProdDeployment",
+      "name" : "Deployment View: Exam Handling System (EXA) - Production",
+      "order" : 10,
+      "relationships" : [ {
+        "id" : "106"
+      }, {
+        "id" : "109"
+      }, {
+        "id" : "112"
+      }, {
+        "id" : "113"
+      }, {
+        "id" : "116"
+      }, {
+        "id" : "118"
+      } ],
+      "softwareSystemId" : "6"
+    } ],
+    "dynamicViews" : [ {
+      "elementId" : "6",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "34",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "studentExamRegistrationDynamic",
+      "name" : "Dynamic View: Exam Handling System (EXA)",
+      "order" : 7,
+      "relationships" : [ {
+        "description" : "Opens exam registration UI",
+        "id" : "44",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Requests exam terms for selected course",
+        "id" : "47",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "Reads course and requirement data",
+        "id" : "49",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "Reads existing exam terms and registrations",
+        "id" : "48",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "Submits registration for chosen term",
+        "id" : "47",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "Checks enrolment and credit status",
+        "id" : "49",
+        "order" : "6",
+        "response" : false
+      }, {
+        "description" : "Checks and reserves capacity, stores registration",
+        "id" : "48",
+        "order" : "7",
+        "response" : false
+      }, {
+        "description" : "Publishes registration-created event",
+        "id" : "50",
+        "order" : "8",
+        "response" : false
+      }, {
+        "description" : "Sends confirmation e-mail",
+        "id" : "51",
+        "order" : "9",
+        "response" : false
+      }, {
+        "description" : "Sees registration confirmation",
+        "id" : "44",
+        "order" : "10",
+        "response" : false
+      } ],
+      "title" : "Feature: Student exam registration"
+    }, {
+      "elementId" : "6",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "34",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "roomReservationDynamic",
+      "name" : "Dynamic View: Exam Handling System (EXA)",
+      "order" : 8,
+      "relationships" : [ {
+        "description" : "Opens exam term management UI",
+        "id" : "45",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "Requests teacher's exam terms",
+        "id" : "47",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "Reads exam terms for teacher",
+        "id" : "48",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "Chooses an exam term and opens room selection",
+        "id" : "45",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "Requests available rooms for that term",
+        "id" : "47",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "Checks existing room reservations",
+        "id" : "48",
+        "order" : "6",
+        "response" : false
+      }, {
+        "description" : "Marks chosen room as reserved and updates exam term",
+        "id" : "48",
+        "order" : "7",
+        "response" : false
+      }, {
+        "description" : "Publishes room-reserved event",
+        "id" : "50",
+        "order" : "8",
+        "response" : false
+      }, {
+        "description" : "Sends confirmation e-mail",
+        "id" : "51",
+        "order" : "9",
+        "response" : false
+      }, {
+        "description" : "Sees successful reservation message",
+        "id" : "45",
+        "order" : "10",
+        "response" : false
+      } ],
+      "title" : "Feature: Reservation of exam premises"
+    } ],
+    "systemContextViews" : [ {
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "exaSystemContextDiagram",
+      "name" : "System Context View: Exam Handling System (EXA)",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "39"
+      }, {
+        "id" : "40"
+      }, {
+        "id" : "41"
+      }, {
+        "id" : "42"
+      }, {
+        "id" : "43"
+      } ],
+      "softwareSystemId" : "6"
+    } ]
+  }
+}

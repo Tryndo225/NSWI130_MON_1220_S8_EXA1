@@ -1,5 +1,16 @@
 workspace "Exam Handling System" "C4 model for EXA project" {
 
+    !impliedRelationships false
+
+    configuration {
+        scope softwaresystem
+    }
+
+    properties {
+        "structurizr.inspection.model.softwaresystem.documentation" "warning"
+        "structurizr.inspection.model.softwaresystem.decisions"     "warning"
+    }
+    
     model {
 
         // ---------------------------------------- People ----------------------------------------
@@ -13,7 +24,6 @@ workspace "Exam Handling System" "C4 model for EXA project" {
 
         // ---------------------------------------- Our system ----------------------------------------
         healthExa = softwareSystem "Exam Handling System (EXA)" "Manages exam terms, registrations, rooms, results and statistics." {
-
             // ----- Container: Web UI -----
             webApp = container "Web Application" "Web UI for students, teachers and managers." "Web application" {
 
@@ -87,45 +97,50 @@ workspace "Exam Handling System" "C4 model for EXA project" {
         notificationWorker -> exaDb "Logs notification status" "JDBC"
 
         // ---------------------------------------- Component relationships (L3 – key ones only) ----------------------------------------
-        loginPage        -> authService          "Authenticates user via"
-        registrationPage -> courseLookupService  "Searches course via"
-        registrationPage -> examTermQueryService "Loads exam terms via"
-        registrationPage -> registrationWorkflow "Submits registration to"
+        loginPage        -> authService          "Authenticates user via"                    "HTTPS/JSON"
+        registrationPage -> courseLookupService  "Searches course via"                       "HTTPS/JSON"
+        registrationPage -> examTermQueryService "Loads exam terms via"                      "HTTPS/JSON"
+        registrationPage -> registrationWorkflow "Submits registration to"                   "HTTPS/JSON"
 
-        examManagementPage  -> examTermQueryService    "Loads teacher exam terms via"
-        roomReservationPage -> roomAvailabilityService "Requests available rooms via"
-        roomReservationPage -> roomReservationService  "Saves chosen room via"
+        examManagementPage  -> examTermQueryService    "Loads teacher exam terms via"        "HTTPS/JSON"
+        roomReservationPage -> roomAvailabilityService "Requests available rooms via"        "HTTPS/JSON"
+        roomReservationPage -> roomReservationService  "Saves chosen room via"               "HTTPS/JSON"
 
-        resultsPage        -> statisticsService "Requests statistics via"
-        notificationWidget -> notificationFacade "Subscribes to notification status via"
+        resultsPage        -> statisticsService  "Requests statistics via"                   "HTTPS/JSON"
+        notificationWidget -> notificationFacade "Subscribes to notification status via"     "WebSocket / SSE"
 
-        registrationWorkflow -> eligibilityService "Delegates eligibility checks to"
-        registrationWorkflow -> capacityService    "Delegates capacity check to"
-        registrationWorkflow -> examRepository     "Creates/updates registration via"
-        registrationWorkflow -> notificationFacade "Publishes registration events to"
+        registrationWorkflow -> eligibilityService "Delegates eligibility checks to"         "In-process call"
+        registrationWorkflow -> capacityService    "Delegates capacity check to"             "In-process call"
+        registrationWorkflow -> examRepository     "Creates/updates registration via"        "In-process call"
+        registrationWorkflow -> notificationFacade "Publishes registration events to"        "In-process call"
 
-        roomReservationService -> roomAvailabilityService "Validates chosen room via"
-        roomReservationService -> examRepository          "Updates exam term room via"
-        roomReservationService -> notificationFacade      "Publishes room reservation events to"
+        roomReservationService -> roomAvailabilityService "Validates chosen room via"        "In-process call"
+        roomReservationService -> examRepository          "Updates exam term room via"       "In-process call"
+        roomReservationService -> notificationFacade      "Publishes room reservation events to" "In-process call"
 
-        creditService -> examRepository     "Updates credit status via"
-        creditService -> notificationFacade "Publishes credit events to"
+        creditService -> examRepository     "Updates credit status via"                      "In-process call"
+        creditService -> notificationFacade "Publishes credit events to"                     "In-process call"
 
-        gradeService  -> examRepository     "Updates grade status via"
-        gradeService  -> notificationFacade "Publishes grade events to"
+        gradeService  -> examRepository     "Updates grade status via"                       "In-process call"
+        gradeService  -> notificationFacade "Publishes grade events to"                      "In-process call"
 
-        statisticsService -> exaDb "Reads statistics and results from"
+        statisticsService -> exaDb "Reads statistics and results from"                       "JDBC"
+        examRepository    -> exaDb "Reads/writes exams, registrations and results"           "JDBC"
 
-        examRepository -> exaDb "Reads/writes exams, registrations and results"
+        // Connect core components directly to DB schemas so schemas are not disconnected
+        examRepository    -> examsSchema         "Reads/writes exam term data via"           "JDBC/SQL"
+        examRepository    -> registrationsSchema "Reads/writes registration data via"        "JDBC/SQL"
+        examRepository    -> resultsSchema       "Reads/writes results data via"             "JDBC/SQL"
+        statisticsService -> statsSchema         "Reads aggregated statistics via"           "JDBC/SQL"
 
-        notificationFacade -> notificationWorker "Sends notification commands to"
+        notificationFacade -> notificationWorker "Sends notification commands to"            "Async message / queue"
 
-        registrationNotifier    -> emailSender      "Uses"
-        roomReservationNotifier -> emailSender      "Uses"
-        resultNotifier          -> emailSender      "Uses"
-        registrationNotifier    -> notificationLog  "Writes"
-        roomReservationNotifier -> notificationLog  "Writes"
-        resultNotifier          -> notificationLog  "Writes"
+        registrationNotifier    -> emailSender     "Uses for registration e-mails"           "In-process call"
+        roomReservationNotifier -> emailSender     "Uses for reservation e-mails"            "In-process call"
+        resultNotifier          -> emailSender     "Uses for result e-mails"                 "In-process call"
+        registrationNotifier    -> notificationLog "Writes notification log entry"           "In-process call / JDBC"
+        roomReservationNotifier -> notificationLog "Writes notification log entry"           "In-process call / JDBC"
+        resultNotifier          -> notificationLog "Writes notification log entry"           "In-process call / JDBC"
 
         // ---------------------------------------- Deployment environments (for 2 deployment diagrams) ----------------------------------------
         deploymentEnvironment "Dev/Test" {
@@ -137,7 +152,7 @@ workspace "Exam Handling System" "C4 model for EXA project" {
                     containerInstance exaDb
                 }
             }
-            deploymentNode "External systems (dev stubs)" "" "" {
+            deploymentNode "External systems (dev stubs)" "Stubbed versions of external systems for development/test." "Docker containers / mock services" {
                 softwareSystemInstance sis
                 softwareSystemInstance mail
             }
@@ -145,20 +160,20 @@ workspace "Exam Handling System" "C4 model for EXA project" {
 
         deploymentEnvironment "Production" {
             deploymentNode "Kubernetes Cluster" "Production app cluster" "Kubernetes" {
-                deploymentNode "Web Pod" "" "" {
+                deploymentNode "Web Pod" "Pod hosting the EXA web application." "Kubernetes Pod" {
                     containerInstance webApp
                 }
-                deploymentNode "App Pod" "" "" {
+                deploymentNode "App Pod" "Pod hosting the EXA application core." "Kubernetes Pod" {
                     containerInstance appCore
                 }
-                deploymentNode "Worker Pod" "" "" {
+                deploymentNode "Worker Pod" "Pod hosting the EXA notification worker." "Kubernetes Pod" {
                     containerInstance notificationWorker
                 }
             }
             deploymentNode "DB Server" "Managed relational database" "PostgreSQL" {
                 containerInstance exaDb
             }
-            deploymentNode "External systems" "" "" {
+            deploymentNode "External systems" "Real external SIS and e-mail systems." "Managed external services" {
                 softwareSystemInstance sis
                 softwareSystemInstance mail
             }
