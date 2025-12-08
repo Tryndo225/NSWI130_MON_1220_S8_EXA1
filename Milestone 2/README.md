@@ -1,4 +1,4 @@
-# Modifications to C4 Model & Quality Scenarios  
+# Modifications to C4 Model & Quality Scenarios
 ### EnrollmentSystem - Architecture Extensions & Justifications
 
 ---
