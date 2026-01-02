@@ -1,148 +1,236 @@
 # Modifications to C4 Model & Quality Scenarios
+
 ### EnrollmentSystem - Architecture Extensions & Justifications
+
+This document describes **quality requirement scenarios** and the corresponding **architectural reasoning** based on the provided **C4 architecture** of the Enrollment System.
 
 ---
 
 ## Selected Quality Dimensions
-1. **Performance / Scalability**  
-2. **Availability / Reliability**
+
+1. **Modifiability (Design-time)**
+2. **Performance (Run-time)**
+3. **Reliability (Run-time)**
 
 ---
 
-# Scenario 1 - Performance  
+# Scenario 0 - Modifiability (Design-time)
+
+## Frontend Replacement Without Backend Changes
+
+### Quality Dimension
+
+Modifiability
+
+### Scenario Description
+
+| Element | Description |
+| --- | --- |
+| **Stimulus** | A UI team replaces **100% of the Enrollment frontend** by implementing a new client (new UI framework + new interaction design) that still supports the same **4 user flows**: (1) browse tickets, (2) enroll, (3) cancel enrollment, (4) join/leave waiting list. |
+| **Source** | Product owner / frontend development team. |
+| **Environment** | Design-time; backend containers are in **feature freeze** (no functional changes allowed); backend API specifications are published; automated API contract tests exist; staging environment available. |
+| **Artifact** | **Presenter-side artifacts only**: `Enrollment Presenter` container and its UI components/controllers (notably `courseTicketController` and `waitingListController`). |
+| **Response** | New frontend integrates using the existing backend API contracts; **no backend container requires modification** (`Enrollment Manager`, `Conditions Manager`, `Notification Service`, and their databases). |
+| **Response Measure** | **0 backend production code changes**; **0 backend DB schema changes**; **100% backend API contract tests pass**; end-to-end acceptance suite for the 4 enrollment flows passes in staging with **≥99% success rate**. |
+
+### Existing Architecture Support
+
+**Strengths:**
+
+- The C4 model separates the UI into **Presenter containers** and the business logic into backend service containers.
+- The frontend communicates with backend services via stable API boundaries, enabling independent frontend evolution.
+
+**Weaknesses:**
+
+- None identified for this scenario as long as API contracts remain stable.
+
+### Required Architectural Extensions
+
+**None.**
+
+**What was added:**
+
+- **No new C4 elements**. (This scenario is satisfied by the existing separation of concerns.)
+
+### Reasoning
+
+The C4 architecture already follows a **client-server / layered architectural style**.  
+Because the frontend is isolated in the `Enrollment Presenter` container and depends only on backend API contracts, it can be replaced without changing backend containers or persistence.
+
+---
+
+# Scenario 1 - Performance
+
 ## Peak Enrollment Load at Opening Time
 
 ### Quality Dimension
-Performance / Scalability
+
+Performance
 
 ### Scenario Description
+
 | Element | Description |
-|--------|-------------|
-| **Stimulus** | At 08:00, more than **2000 students** attempt enrollment into a few popular classes simultaneously. |
-| **Environment** | Very high load, SIS & SSO *(Single Sign-On)* operational. |
-| **Artifact** | `Enrollment Presenter`, `courseTicketController`, `Enrollment Manager` (`enrollmentAPI`, `ticketCapacityHandler`, `enrollmentWriter`). |
-| **Response** | All requests processed without oversubscription, users get results quickly. |
-| **Response Measure** | 95% completed in **≤2 seconds**, 99.9% correctness of capacity (no over-enrollment). |
+| --- | --- |
+| **Stimulus** | At 08:00, **2,500 students** submit enrollment requests within a **10-minute window** for a small set of popular courses. |
+| **Source** | External users (students). |
+| **Environment** | Very high load; enrollment window open; database available; SSO operational. |
+| **Artifact** | End-to-end path affected by the load: `Enrollment Presenter` (`courseTicketController`) and `Enrollment Manager` (`enrollmentAPI`, `ticketCapacityHandler`, `ticketStoreAdapter`, `enrollmentWriter`). |
+| **Response** | Requests are processed without oversubscription and with acceptable response times. |
+| **Response Measure** | ≥ **95%** of requests complete in **≤2.5 seconds**; **99.9% correctness** of capacity constraints (no over-enrollment). |
 
 ### Existing Architecture Support
-Strengths:
-- `ticketCapacityHandler` guarantees correctness through locking.
 
-Weaknesses:
-- No caching, which leads to many duplicate DB reads.  
-- No monitoring of latency or throughput.  
+**Strengths:**
+
+- `ticketCapacityHandler` enforces capacity correctness (prevents over-enrollment).
+
+**Weaknesses:**
+
+- `ticketStoreAdapter` / DB reads are repeated for the same ticket data during spikes.
+- No explicit monitoring to verify latency/throughput targets.
 
 ### Required Architectural Extensions
+
 #### **1. New Component: `ticketCache` (in Enrollment Manager)**
-- Caches ticket metadata & capacity.
-- Used by `enrollmentAPI` and `ticketCapacityHandler`.
+
+- Caches ticket metadata and capacity.
+- Used by `enrollmentAPI` and `ticketCapacityHandler` to reduce repeated DB reads.
 
 #### **2. New Container: `Monitoring & Metrics`**
-- Receives metrics (latency, load, errors).
-- Allows target verification (2s limit).
 
+- Collects latency, throughput, and error metrics.
+- Enables verification of the **2.5s** and correctness targets.
+
+**What was added:**
+
+- `ticketCache` (component, Enrollment Manager)
+- `Monitoring & Metrics` (container)
 
 ---
 
-# Scenario 2 - Performance  
+# Scenario 2 - Performance
+
 ## Mass Evaluation of Enrollment Conditions
 
 ### Quality Dimension
-Performance / Scalability
+
+Performance
 
 ### Scenario Description
+
 | Element | Description |
-|--------|-------------|
-| **Stimulus** | 500+ students attempt to enroll in a course with **complex enrollment conditions** at the same time. |
-| **Environment** | Normal DB availability, peak query load. |
-| **Artifact** | `conditionReader`, `conditionEvaluator`, `predicateLibrary`, `conditionSchema`. |
-| **Response** | Fast determination of eligibility. |
-| **Response Measure** | Conditions evaluation adds **≤200 ms** latency, system handles **100 condition-check requests/sec**. |
+| --- | --- |
+| **Stimulus** | **600 students** attempt to enroll into the same course within **5 minutes**, triggering repeated condition checks with identical condition schema versions. |
+| **Source** | External users (students). |
+| **Environment** | Peak load; database available; Conditions checking logic operational. |
+| **Artifact** | Condition-evaluation subsystem affected by the stimulus: `conditionReader`, `conditionEvaluator`, `predicateLibrary`, and the `conditionSchema` store (Condition Schema DB), plus the caller path from `Enrollment Manager` (`enrollmentAPI`). |
+| **Response** | Eligibility is determined efficiently without repeating expensive evaluations for identical inputs. |
+| **Response Measure** | Condition evaluation adds **≤300 ms** to enrollment latency; system handles **≥120 condition-check requests/sec**; eligibility cache hit rate **≥70%** during the 5-minute window. |
 
 ### Existing Architecture Support
-Strengths:
-- Modular separation between Conditions Manager and Enrollment Manager.
 
-Weaknesses:
-- No caching of eligibility.  
-- Repeated heavy DB queries.
+**Strengths:**
+
+- Separation of responsibilities between enrollment logic and condition management/checking logic.
+
+**Weaknesses:**
+
+- Identical eligibility checks are recomputed repeatedly during spikes.
+- Repeated heavy reads of the same condition schema/version.
 
 ### Required Architectural Extensions
+
 #### **1. New Component: `eligibilityCache` (in Enrollment Manager)**
-- Stores temporary results such as “Student X eligible for Course Y under Conditions Z”.
+
+- Stores results such as: “Student X eligible for Course Y under Conditions Schema Version Z”.
+- Avoids repeated evaluation work for identical inputs.
+
+**What was added:**
+
+- `eligibilityCache` (component, Enrollment Manager)
 
 ---
 
-# Scenario 3 - Availability  
+# Scenario 3 - Reliability
+
 ## Notification Service Outage During Enrollment
 
 ### Quality Dimension
-Availability / Fault Tolerance
+
+Reliability
 
 ### Scenario Description
+
 | Element | Description |
-|--------|-------------|
-| **Stimulus** | Notification Service becomes unavailable for **30 minutes**. |
-| **Environment** | Enrollment ongoing, waiting-list auto-enrollments still executing. |
-| **Artifact** | `auto-EnrollWorker`, `waitQueueService`, `Enrollment Manager` writers, external Notification Service. |
-| **Response** | Enrollment continues, notifications are delayed but **never lost**. |
-| **Response Measure** | 0 lost notifications, all queued and delivered within 1 hour after recovery. |
+| --- | --- |
+| **Stimulus** | `Notification Service` becomes unavailable for **20 minutes** while enrollments and waiting-list auto-enrollments continue. |
+| **Source** | Internal infrastructure failure. |
+| **Environment** | Enrollment ongoing; `auto-EnrollWorker` processing active; Notification Service down; database and message bus available. |
+| **Artifact** | Enrollment-to-notification delivery path: `Enrollment Manager` writers (including `enrollmentWriter` and `auto-EnrollWorker`), the `notificationOutbox`, the `Message Bus / Event Broker`, and the `Notification Service` container. |
+| **Response** | Enrollment continues; notifications are delayed but never lost; delivery resumes after recovery. |
+| **Response Measure** | **0 lost notifications**; **100% delivered** within **30 minutes** after service recovery; **0 enrollment failures** attributable to the outage. |
 
 ### Existing Architecture Support
-Weaknesses:
-- If Enrollment Manager calls Notification Service synchronously, a crash/outage breaks workflows.
-- No buffering for pending notifications.
+
+**Weaknesses:**
+
+- Synchronous calls to Notification Service would block enrollment workflows during outages.
+- Without durable buffering, notification events could be lost on failures.
 
 ### Required Architectural Extensions
+
 #### **1. New Container: `Message Bus / Event Broker`**
-- Enrollment Manager publishes events like `EnrollmentCreated`, `AutoEnrolledFromWaitingList`.
-- Notification Service consumes these events asynchronously.
+
+- `Enrollment Manager` publishes events (e.g., `EnrollmentCreated`, `AutoEnrolledFromWaitingList`).
+- `Notification Service` consumes events asynchronously.
 
 #### **2. New Component: `notificationOutbox` (in Enrollment Manager)**
-- Guarantees durable queuing of notifications.
-- Outbox pattern ensures **no lost messages**.
+
+- Durable storage of notification events (Outbox Pattern).
+- Guarantees events are published even if the service crashes mid-flow.
+
+**What was added:**
+
+- `Message Bus / Event Broker` (container)
+- `notificationOutbox` (component, Enrollment Manager)
 
 ---
 
-#  Scenario 4 - Reliability  
+# Scenario 4 - Reliability
+
 ## Crash During Auto-Enrollment From Waiting List
 
 ### Quality Dimension
-Reliability / Consistency
+
+Reliability
 
 ### Scenario Description
+
 | Element | Description |
-|--------|-------------|
-| **Stimulus** | `auto-EnrollWorker` crashes during the steps: capacity reservation, DB write, or schedule update. |
-| **Environment** | Partial Enrollment Manager failure, DB may or may not have committed. |
-| **Artifact** | `waitQueueService`, `ticketCapacityHandler`, `enrollmentWriter`, `scheduleWriter`. |
-| **Response** | Final system state must be safe and consistent: no double enrollments, no lost seats, no “removed from queue but not enrolled” states. |
-| **Response Measure** | After recovery: system ends up in exactly **one** of two valid states: (1) student still in waiting queue OR (2) student enrolled exactly once. |
+| --- | --- |
+| **Stimulus** | `auto-EnrollWorker` crashes while processing **1 waiting-list promotion** during the sequence: capacity reservation => enrollment DB write => schedule update. |
+| **Source** | Internal system failure. |
+| **Environment** | Partial Enrollment Manager failure; relational DB available; crash occurs at an arbitrary point in the sequence. |
+| **Artifact** | Waiting-list and enrollment write path: `waitQueueService`, `ticketCapacityHandler`, `enrollmentWriter`, `scheduleWriter`, and the enrollment persistence layer used by these components. |
+| **Response** | After restart, the system reaches a safe, consistent state with no partial enrollment effects. |
+| **Response Measure** | After recovery, the student ends in **exactly one** of two valid states: (1) still in waiting queue OR (2) enrolled **exactly once**; **0 duplicate enrollments** in **100%** of automated crash-recovery tests. |
 
 ### Existing Architecture Support
-Weaknesses:
-- These steps currently appear to execute as **separate** DB operations.
-- Crash between steps can leave the system in an inconsistent, half-updated state (e.g., capacity reserved but enrollment not written).
-- There is no mechanism to automatically retry or roll back incomplete operations.
+
+**Weaknesses:**
+
+- The sequence involves multiple operations; a crash between steps can leave partial state if not grouped properly.
 
 ### Architectural Extension Options
-#### **No structural extension (Only changes in DB behavior)**
-- Document that all auto-enrollment operations run inside **one ACID DB transaction**.
-- If crash occurs => DB rolls back => student remains safely in queue.
-- Idempotency guaranteed by DB constraints.
 
-- **“One ACID DB transaction”**  
-  Grouping multiple DB operations into a **single database transaction** that obeys the ACID properties:
-  - **Atomicity** - all operations succeed or none do (no partial state).
-  - **Consistency** - transaction moves the DB from one valid state to another valid state.
-  - **Isolation** - concurrent transactions don’t interfere in a way that breaks correctness.
-  - **Durability** - once committed, the result survives crashes.
+#### **No structural extension (DB-level guarantee only)**
 
-  Example in EnrollmentSystem:  
-  - Reserve capacity for a ticket  
-  - Insert enrollment row  
-  - Update student’s timetable  
+- Document and enforce that all auto-enrollment operations execute inside **one ACID DB transaction**.
+- If a crash occurs, the DB rolls back and the student remains safely in the queue.
+- Idempotency ensured by DB constraints.
 
-  If wrapped into one ACID transaction, either *all three* persist, or *none* persist if something fails.
+**What was added:**
+
+- **No new C4 elements**; only an explicit architectural constraint: _single ACID transaction boundary for auto-enrollment_.
 
 ---
