@@ -59,7 +59,7 @@ Because the frontend is isolated in the `Enrollment Presenter` container and dep
 
 ---
 
-# Scenario 1 - Performance
+# Scenario 1 - Performance (Run-time)
 
 ## Peak Enrollment Load at Opening Time
 
@@ -108,7 +108,7 @@ Performance
 
 ---
 
-# Scenario 2 - Performance
+# Scenario 2 - Performance (Run-time)
 
 ## Mass Evaluation of Enrollment Conditions
 
@@ -151,7 +151,7 @@ Performance
 
 ---
 
-# Scenario 3 - Reliability
+# Scenario 3 - Reliability (Run-time)
 
 ## Notification Service Outage During Enrollment
 
@@ -196,7 +196,7 @@ Reliability
 
 ---
 
-# Scenario 4 - Reliability
+# Scenario 4 - Reliability (Run-time)
 
 ## Crash During Auto-Enrollment From Waiting List
 
